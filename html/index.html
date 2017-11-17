@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Editor</title>
+    <link type="text/css" rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="content">
+    <header>
+        <div class="header menu-header">
+            <div class="menu-button menu-button-top">
+                <span class="button menu-button">File</span>
+                <div class="down-button down-menu file-down">
+                    <div class="button down-button">Import</div>
+                    <div class="button down-button">Export</div>
+                    <div class="button down-button">Print</div>
+                </div>
+            </div>
+            <div class="menu-button">
+                <span class="button menu-button">Edit</span>
+                <div class="down-button down-menu edit-down">
+                    <div class="button down-button">
+                            <span class="to-left">
+                                <span class="fa fa-undo"></span>
+                                <span>Undo</span>
+                            </span>
+                        <span class="button-tag to-right">Ctrl+Z</span>
+                    </div>
+                    <div class="button down-button">
+                            <span class="to-left">
+                                <span class="fa fa-repeat"></span>
+                                <span>Redo</span>
+                            </span>
+                        <span class="button-tag to-right">Ctrl+Y</span>
+                    </div>
+                    <hr>
+                    <div class="button down-button">
+                            <span class="to-left">
+                                <span class="fa fa-repeat"></span>
+                                <span>Cut</span>
+                            </span>
+                        <span class="button-tag to-right">Ctrl+X</span>
+                    </div>
+                    <div class="button down-button">
+                            <span class="to-left">
+                                <span class="fa fa-repeat"></span>
+                                <span>Copy</span>
+                            </span>
+                        <span class="button-tag to-right">Ctrl+C</span>
+                    </div>
+                    <div class="button down-button">
+                            <span class="to-left">
+                                <span class="fa fa-repeat"></span>
+                                <span>Pastle</span>
+                            </span>
+                        <span class="button-tag to-right">Ctrl+V</span>
+                    </div>
+                    <div class="button down-button">
+                        Paste as text
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header button-header">
+            <span class="functional-button fa fa-lg fa-undo" id="undo"></span>
+            <span class="functional-button fa fa-lg fa-repeat" id="redo"></span>
+            <span class="functional-button fa fa-lg fa-italic" id="italic"></span>
+            <span class="functional-button fa fa-lg fa-bold" id="bold"></span>
+            <span class="functional-button fa fa-lg fa-underline" id="underline"></span>
+            <span class="functional-button-list">
+                    <span class="fa fa-lg fa-list" id="format"></span>
+                    <span class="fa functional-button-list-down functional-button-down fa-sort-desc"></span>
+                </span>
+            <span class="functional-button fa fa-lg fa-table" id="table"></span>
+            <span class="functional-button fa fa-lg fa-picture-o" id="image"></span>
+        </div>
+    </header>
+    <!-- library for icons: "awesome" -->
+    <main>
+        <div class="text" contenteditable="true">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lacus justo, hendrerit in mi in, tempor
+            finibus felis. Praesent luctus massa nec lectus blandit sagittis. Duis mollis lorem purus. Phasellus
+            ullamcorper tellus at dolor laoreet efficitur viverra sit amet tellus. Donec egestas pellentesque volutpat.
+            Maecenas sapien velit, consectetur nec velit a, maximus venenatis ipsum. Mauris commodo placerat turpis, at
+            dignissim diam lacinia sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+            himenaeos.
+
+            Integer euismod neque vitae est varius eleifend. Praesent a mollis nibh. In ornare diam et ullamcorper
+            volutpat. Vestibulum laoreet egestas varius. Integer in sapien pharetra, sagittis erat id, ultricies lacus.
+            In semper iaculis est, sit amet pulvinar mauris tincidunt vitae. Sed posuere magna ut orci rutrum, sed
+            pellentesque lacus sagittis. Aliquam erat volutpat. Sed risus tellus, lobortis hendrerit arcu eget,
+            porttitor auctor dui. Integer faucibus ullamcorper lorem vitae porta. Nullam non dictum orci. Maecenas
+            rutrum id metus ac ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies
+            ultricies quam, vel faucibus lorem volutpat nec. Ut ut sapien augue.
+
+            Cras id orci et urna euismod rhoncus in in erat. Aenean vel sem tempus, interdum eros non, gravida orci. Sed
+            cursus quam eu tellus efficitur faucibus. Ut egestas malesuada augue vel aliquam. Interdum et malesuada
+            fames ac ante ipsum primis in faucibus. Phasellus sed accumsan sapien. Proin malesuada est quis massa
+            condimentum, a accumsan mauris lacinia. Praesent consectetur, mi hendrerit dapibus pretium, ligula orci
+            maximus magna, non fermentum felis lacus nec nisi. Suspendisse quis turpis vel leo vulputate commodo.
+            Phasellus magna turpis, cursus ut nisi ut, aliquam euismod ante. Nulla vehicula commodo quam, vehicula
+            euismod mauris dapibus iaculis. Maecenas blandit at lacus et convallis. Vestibulum tincidunt, quam sit amet
+            pretium pulvinar, mi turpis ullamcorper nisl, vitae mattis libero ex vel nisl. Suspendisse ac lacus dui.
+            Nunc sagittis ligula id malesuada maximus.
+
+            Donec eleifend, quam vitae porta venenatis, lorem urna eleifend lectus, id eleifend velit elit et velit.
+            Mauris et faucibus quam. Aliquam erat volutpat. Donec sit amet mauris pellentesque, faucibus tellus
+            ultrices, elementum orci. Donec pretium dapibus elit non tristique. In sodales, velit ut viverra volutpat,
+            mi sem consectetur sapien, eget viverra lectus tortor at nibh. Sed velit ligula, vulputate nec accumsan et,
+            laoreet sit amet mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a pulvinar mi.
+            Suspendisse potenti. In aliquam erat sed libero vehicula, quis aliquam turpis aliquet.
+
+            Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam eget orci in
+            sapien tempus accumsan in in felis. Aenean in odio nunc. Curabitur erat erat, pretium a mauris at,
+            condimentum condimentum dui. Etiam in libero quis justo hendrerit accumsan. Curabitur sodales porta lectus
+            id blandit. Nunc consectetur, mi vel porta semper, dui nibh posuere nibh, mollis pharetra metus justo id
+            erat. Ut mollis massa velit, non dapibus ex efficitur quis. Suspendisse in lectus placerat, suscipit massa
+            id, lacinia ante.
+        </div>
+    </main>
+</div>
+<script src="http://code.jquery.com/jquery-1.8.3.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" defer></script>
+<script src="../js/TextUtils.js" defer></script>
+<script src="../js/FileLoader.js" defer></script>
+<script src="../js/FileUtils.js" defer></script>
+<script src="../js/OperationUtils.js" defer></script>
+<script src="../js/Storage.js" defer></script>
+<script src="../js/StyleUtils.js" defer></script>
+<script src="../js/Utils.js" defer></script>
+<script src="../js/Main.js" defer></script>
+</body>
+</html>

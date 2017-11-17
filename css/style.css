@@ -1,0 +1,159 @@
+main {
+    width: inherit;
+    height: inherit;
+}
+
+hr {
+    margin: 0;
+}
+
+.content {
+    width: 1800px;
+    height: 800px;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+.button {
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    font-family: Arial, serif;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 8px;
+    user-select: none;
+}
+
+.menu-button {
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.header {
+    width: inherit;
+    height: 35px;
+}
+
+.menu-header {
+    border: 1px solid lightgray;
+    border-bottom: 0;
+}
+
+.button-header {
+    border: 1px solid black;
+    border-bottom: 0;
+    padding: 3px;
+}
+
+.text {
+    width: 1798px;
+    height: inherit;
+    border: 1px solid black;
+    font-size: 20px;
+    resize: none;
+}
+
+.functional-button {
+    width: 34px;
+    height: 34px;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 9px;
+    background-color: rgb(232, 232, 238);
+    border-radius: 2px;
+    user-select: none;
+}
+
+.functional-button-list {
+    width: 44px;
+    height: 34px;
+    text-align: center;
+    box-sizing: border-box;
+    display: inline-block;
+    padding-top: 6px;
+    background-color: rgb(232, 232, 238);
+    border-radius: 2px;
+}
+
+.functional-button-down {
+    width: 10px;
+    font-size: 15px !important;
+    padding-bottom: 5px;
+}
+
+.functional-button-list:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.functional-button:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.functional-button-list-down {
+    vertical-align: text-bottom;
+}
+
+.down-button {
+    width: inherit;
+    display: block;
+}
+
+.down-menu {
+    position: relative;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.menu-button-top {
+    vertical-align: top;
+}
+
+.button-tag {
+    color: rgb(232, 232, 238);
+}
+
+.edit-down {
+    width: 200px;
+}
+
+.to-left {
+    float: left;
+}
+
+.to-right {
+    float: right;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
