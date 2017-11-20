@@ -107,7 +107,7 @@ hr {
     height: 35px;
     font-size: 17px;
     text-align: center;
-    line-height: 35px;
+    padding: 6px;
     display: block;
 }
 .down-button:hover {
@@ -115,10 +115,13 @@ hr {
     cursor: pointer;
 }
 
+.separator {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
 .down-menu {
-    position: relative;
-    background-color: white;
-    border: 1px solid black;
+    min-width: 100px !important;
 }
 
 .menu-button-top {

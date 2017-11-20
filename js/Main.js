@@ -1,10 +1,8 @@
 class Main {
 
     constructor() {
-        this._$header = $('.header');
         this._$fileDown = $('#file-menu');
-        this._$editDown = $('.edit-down');
-        this._$menu = $('.menu-button');
+        this._$editDown = $('#edit-menu');
         this._$button = $('.header.button-header');
         this._$text = $('.text');
 
@@ -14,9 +12,9 @@ class Main {
         this._styleUtils = new StyleUtils(this._$text);
 
         this._fileCommandMap = new Map();
-        this._fileCommandMap.set('print', () => this._fileUtils.print());
-        this._fileCommandMap.set('import', () => this._fileUtils.importText());
-        this._fileCommandMap.set('export', () => this._fileUtils.exportText());
+        this._fileCommandMap.set('Print', () => this._fileUtils.print());
+        this._fileCommandMap.set('Import', () => this._fileUtils.importText());
+        this._fileCommandMap.set('Export', () => this._fileUtils.exportText());
 
         this._editCommandMap = new Map();
         this._editCommandMap.set('Undo', () => this._storage.undoOperation());
@@ -36,44 +34,39 @@ class Main {
         this._controlCommandMap.set('image', () => this._operationUtils.openImage());
     }
 
+    static _getEditCommand($elem) {
+        let command = '';
+        if ($elem.hasClass('command')) {
+            command = $elem.text();
+        } else {
+            if ($elem.hasClass('down-button')) {
+                command = $elem.find('.command').text();
+            } else {
+                command = $elem.parent().find('.command').text();
+            }
+        }
+
+        if (command === '') {
+            throw Error('Wrong added element');
+        }
+
+        return command;
+    }
+
     main() {
-        this._$fileDown.hide();
-        this._$editDown.hide();
-
-        this._$header.on('mousemove', (event) => {
-            let buttonName = event.target.textContent.trim();
-            if (buttonName === 'File') {
-                this._$fileDown.show();
-            } else if (buttonName === 'Edit') {
-                this._$editDown.show();
-            }
-        });
-
-        this._$menu.on('mouseleave', (event) => {
-            let element = $(event.currentTarget).find('.button.menu-button');
-            let buttonName = element.text().trim();
-
-            if (buttonName === 'File') {
-                this._$fileDown.hide();
-            } else if (buttonName === 'Edit') {
-                this._$editDown.hide();
-            }
-        });
-
         this._$fileDown.click((event) => {
-            let buttonName = event.currentTarget.id;
-            console.log(buttonName);
+            let buttonName = event.target.innerText;
             let action = this._fileCommandMap.get(buttonName);
             action();
         });
 
         this._$editDown.click((event) => {
-            let buttonName = $(event.target).find('.command').text().trim();
-            if (buttonName === undefined) {
-                buttonName = event.target.text.trim();
+            let $elem = $(event.target);
+            if ($elem.hasClass('separator') || $elem.hasClass('dropdown-menu')) {
+                return;
             }
 
-            let action = this._editCommandMap.get(buttonName);
+            let action = this._editCommandMap.get(Main._getEditCommand($elem));
             action();
         });
 

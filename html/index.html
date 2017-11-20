@@ -13,76 +13,47 @@
         <div class="header menu-header">
             <div class="dropdown menu-button">
                 <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">File</button>
-                <ul class="dropdown-menu" id="file-menu">
-                    <li class="down-button" id="import"><span>Import</span></li>
-                    <li class="down-button" id="export"><span>Export</span></li>
-                    <li class="down-button" id="print"><span>Print</span></li>
+                <ul class="dropdown-menu down-menu" id="file-menu">
+                    <li class="down-button">Import</li>
+                    <li class="down-button">Export</li>
+                    <li class="down-button">Print</li>
                 </ul>
             </div>
 
             <div class="dropdown menu-button">
                 <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">Edit</button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Undo</a></li>
-                    <li><a href="#">Redo</a></li>
-                    <li><a href="#">Cut</a></li>
-                    <li><a href="#">Copy</a></li>
-                    <li><a href="#">Paste</a></li>
-                    <li><a href="#">Paste as text</a></li>
+                <ul class="dropdown-menu" id="edit-menu">
+                    <li class="down-button">
+                        <span class="fa fa-undo"></span>
+                        <span class="command">Undo</span>
+                        <span class="button-tag to-right">Ctrl+Z</span>
+                    </li>
+                    <li class="down-button">
+                        <span class="fa fa-repeat"></span>
+                        <span class="command">Redo</span>
+                        <span class="button-tag to-right">Ctrl+Y</span>
+                    </li>
+                    <li><hr class="separator"></li>
+                    <li class="down-button">
+                        <span class="fa fa-scissors"></span>
+                        <span class="command">Cut</span>
+                        <span class="button-tag to-right">Ctrl+X</span>
+                    </li>
+                    <li class="down-button">
+                        <span class="fa fa-files-o"></span>
+                        <span class="command">Copy</span>
+                        <span class="button-tag to-right">Ctrl+C</span>
+                    </li>
+                    <li class="down-button">
+                        <span class="fa fa-clipboard"></span>
+                        <span class="command">Paste</span>
+                        <span class="button-tag to-right">Ctrl+V</span>
+                    </li>
+                    <li class="down-button">
+                        <span class="command">Paste as text</span>
+                    </li>
                 </ul>
             </div>
-            <!--<div class="menu-button menu-button-top">
-                <span class="button menu-button">File</span>
-                <div class="down-button down-menu file-down">
-                    <div class="button down-button">Import</div>
-                    <div class="button down-button">Export</div>
-                    <div class="button down-button">Print</div>
-                </div>
-            </div>-->
-            <!--<div class="menu-button">
-                <span class="button menu-button">Edit</span>
-                <div class="down-button down-menu edit-down">
-                    <div class="button down-button">
-                            <span class="to-left">
-                                <span class="fa fa-undo"></span>
-                                <span>Undo</span>
-                            </span>
-                        <span class="button-tag to-right">Ctrl+Z</span>
-                    </div>
-                    <div class="button down-button">
-                            <span class="to-left">
-                                <span class="fa fa-repeat"></span>
-                                <span>Redo</span>
-                            </span>
-                        <span class="button-tag to-right">Ctrl+Y</span>
-                    </div>
-                    <hr>
-                    <div class="button down-button">
-                            <span class="to-left">
-                                <span class="fa fa-repeat"></span>
-                                <span>Cut</span>
-                            </span>
-                        <span class="button-tag to-right">Ctrl+X</span>
-                    </div>
-                    <div class="button down-button">
-                            <span class="to-left">
-                                <span class="fa fa-repeat"></span>
-                                <span>Copy</span>
-                            </span>
-                        <span class="button-tag to-right">Ctrl+C</span>
-                    </div>
-                    <div class="button down-button">
-                            <span class="to-left">
-                                <span class="fa fa-repeat"></span>
-                                <span>Pastle</span>
-                            </span>
-                        <span class="button-tag to-right">Ctrl+V</span>
-                    </div>
-                    <div class="button down-button">
-                        Paste as text
-                    </div>
-                </div>
-            </div>-->
         </div>
         <div class="header button-header">
             <span class="functional-button fa fa-lg fa-undo" id="undo"></span>
@@ -98,7 +69,6 @@
             <span class="functional-button fa fa-lg fa-picture-o" id="image"></span>
         </div>
     </header>
-    <!-- library for icons: "awesome" -->
     <main>
         <div class="text" contenteditable="true">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lacus justo, hendrerit in mi in, tempor
@@ -142,7 +112,8 @@
         </div>
     </main>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous" defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" defer></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
 <script src="../js/TextUtils.js" defer></script>

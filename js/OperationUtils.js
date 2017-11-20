@@ -24,6 +24,10 @@ class OperationUtils {
             this.cut();
         });
 
+        this._$text.on('focus', (event) => {
+            console.log(event);
+        });
+
         this._buffer = "";
     }
 
