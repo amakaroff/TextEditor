@@ -2,7 +2,7 @@ class FileUtils {
 
     constructor(element) {
         this._loader = new FileLoader((result) => {
-            this._$text.html(JSON.parse(result).data);
+            this._$text.html(decodeURI(JSON.parse(result).data));
         });
 
         this._$text = Utils.getJQueryDOMElement(element);

@@ -2,7 +2,7 @@ class Main {
 
     constructor() {
         this._$header = $('.header');
-        this._$fileDown = $('.file-down');
+        this._$fileDown = $('#file-menu');
         this._$editDown = $('.edit-down');
         this._$menu = $('.menu-button');
         this._$button = $('.header.button-header');
@@ -14,9 +14,9 @@ class Main {
         this._styleUtils = new StyleUtils(this._$text);
 
         this._fileCommandMap = new Map();
-        this._fileCommandMap.set('Print', () => this._fileUtils.print());
-        this._fileCommandMap.set('Import', () => this._fileUtils.importText());
-        this._fileCommandMap.set('Export', () => this._fileUtils.exportText());
+        this._fileCommandMap.set('print', () => this._fileUtils.print());
+        this._fileCommandMap.set('import', () => this._fileUtils.importText());
+        this._fileCommandMap.set('export', () => this._fileUtils.exportText());
 
         this._editCommandMap = new Map();
         this._editCommandMap.set('Undo', () => this._storage.undoOperation());
@@ -35,7 +35,6 @@ class Main {
         this._controlCommandMap.set('table', undefined);
         this._controlCommandMap.set('image', () => this._operationUtils.openImage());
     }
-
 
     main() {
         this._$fileDown.hide();
@@ -62,7 +61,8 @@ class Main {
         });
 
         this._$fileDown.click((event) => {
-            let buttonName = event.target.innerText.trim();
+            let buttonName = event.currentTarget.id;
+            console.log(buttonName);
             let action = this._fileCommandMap.get(buttonName);
             action();
         });

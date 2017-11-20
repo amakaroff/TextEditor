@@ -16,12 +16,13 @@ hr {
 
 .button {
     width: 70px;
-    height: 35px;
+    height: 32px;
     text-align: center;
+    border: none;
     font-family: Arial, serif;
     font-size: 16px;
     box-sizing: border-box;
-    padding: 8px;
+    padding: 3px;
     user-select: none;
 }
 
@@ -42,6 +43,7 @@ hr {
 .menu-header {
     border: 1px solid lightgray;
     border-bottom: 0;
+    padding: 1px;
 }
 
 .button-header {
@@ -83,7 +85,7 @@ hr {
 
 .functional-button-down {
     width: 10px;
-    font-size: 15px !important;
+    font-size: 15px;
     padding-bottom: 5px;
 }
 
@@ -102,8 +104,15 @@ hr {
 }
 
 .down-button {
-    width: inherit;
+    height: 35px;
+    font-size: 17px;
+    text-align: center;
+    line-height: 35px;
     display: block;
+}
+.down-button:hover {
+    background-color: lightgray;
+    cursor: pointer;
 }
 
 .down-menu {
@@ -154,6 +163,13 @@ hr {
 
 .text-center {
     text-align: center;
+}
+
+.image {
+    width: 250px;
+    height: 250px;
+    float: left;
+    margin: 7px 7px 7px 0;
 }
 
 

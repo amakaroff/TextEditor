@@ -4,7 +4,7 @@ class FileLoader {
         this._reader = new FileReader();
         this._reader.onload = (event) => {
             if (callback instanceof Function) {
-                callback(this._reader.result.toString(), event);
+                callback(this._reader.result, event);
             }
         };
     }
@@ -35,7 +35,6 @@ class FileLoader {
                     if (load === 'data') {
                         this._reader.readAsText(file);
                     } else if (load === 'url') {
-                        alert(1);
                         this._reader.readAsDataURL(file);
                     }
                 }

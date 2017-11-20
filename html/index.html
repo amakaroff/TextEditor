@@ -5,20 +5,41 @@
     <title>Editor</title>
     <link type="text/css" rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <div class="content">
     <header>
         <div class="header menu-header">
-            <div class="menu-button menu-button-top">
+            <div class="dropdown menu-button">
+                <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">File</button>
+                <ul class="dropdown-menu" id="file-menu">
+                    <li class="down-button" id="import"><span>Import</span></li>
+                    <li class="down-button" id="export"><span>Export</span></li>
+                    <li class="down-button" id="print"><span>Print</span></li>
+                </ul>
+            </div>
+
+            <div class="dropdown menu-button">
+                <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">Edit</button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Undo</a></li>
+                    <li><a href="#">Redo</a></li>
+                    <li><a href="#">Cut</a></li>
+                    <li><a href="#">Copy</a></li>
+                    <li><a href="#">Paste</a></li>
+                    <li><a href="#">Paste as text</a></li>
+                </ul>
+            </div>
+            <!--<div class="menu-button menu-button-top">
                 <span class="button menu-button">File</span>
                 <div class="down-button down-menu file-down">
                     <div class="button down-button">Import</div>
                     <div class="button down-button">Export</div>
                     <div class="button down-button">Print</div>
                 </div>
-            </div>
-            <div class="menu-button">
+            </div>-->
+            <!--<div class="menu-button">
                 <span class="button menu-button">Edit</span>
                 <div class="down-button down-menu edit-down">
                     <div class="button down-button">
@@ -61,7 +82,7 @@
                         Paste as text
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="header button-header">
             <span class="functional-button fa fa-lg fa-undo" id="undo"></span>
@@ -121,8 +142,9 @@
         </div>
     </main>
 </div>
-<script src="http://code.jquery.com/jquery-1.8.3.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" defer></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
 <script src="../js/TextUtils.js" defer></script>
 <script src="../js/FileLoader.js" defer></script>
 <script src="../js/FileUtils.js" defer></script>

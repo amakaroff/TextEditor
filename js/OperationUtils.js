@@ -2,9 +2,13 @@ class OperationUtils {
 
     constructor(element) {
         this._$text = Utils.getJQueryDOMElement(element);
-        this._$fileLoader = new FileLoader((data, event) => {
-            alert(11);
-            console.log(event.target.result);
+        this._textUtils = new TextUtils(this._$text);
+
+        this._$fileLoader = new FileLoader((data) => {
+            let image = document.createElement('img');
+            image.setAttribute('src', data);
+            image.setAttribute('class', 'image');
+            this._textUtils.insertToSelected(image.outerHTML);
         });
 
         this._$text.on('copy', () => {
@@ -21,7 +25,6 @@ class OperationUtils {
         });
 
         this._buffer = "";
-        this._textUtils = new TextUtils(this._$text);
     }
 
     paste() {
