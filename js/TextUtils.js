@@ -28,17 +28,24 @@ class TextUtils {
 
     getSelectIndex() {
         if (window.getSelection && document.createRange) {
-            let range = window.getSelection().getRangeAt(0);
-            let preSelectionRange = range.cloneRange();
-            preSelectionRange.selectNodeContents(this._$text.get()[0]);
-            preSelectionRange.setEnd(range.startContainer, range.startOffset);
+            if (window.getSelection().rangeCount > 0) {
+                let range = window.getSelection().getRangeAt(0);
+                let preSelectionRange = range.cloneRange();
+                preSelectionRange.selectNodeContents(this._$text.get()[0]);
+                preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
-            let start = this.getStartIndex(preSelectionRange, 0);
+                let start = this.getStartIndex(preSelectionRange, 0);
 
-            return {
-                start: start,
-                end: start + this.getStartIndex(range, start)
-            };
+                return {
+                    start: start,
+                    end: start + this.getStartIndex(range, start)
+                };
+            } else {
+                return {
+                    start: 0,
+                    end: 0
+                };
+            }
         } else {
             //Some shit happens
             let selectedTextRange = document.selection.createRange();
@@ -54,17 +61,28 @@ class TextUtils {
         }
     }
 
-    getSelectText() {
-        let selectIndex = this.getSelectIndex();
+    getSelectText(selected) {
+        let selectIndex;
+        if (selected === undefined) {
+            selectIndex = this.getSelectIndex();
+        } else {
+            selectIndex = selected;
+        }
+
         return this._$text.html().substring(selectIndex.start, selectIndex.end);
     }
 
-    insertToSelected(data, removedTag) {
+    insertToSelected(data, removedTag, selected) {
         if (data instanceof HTMLElement) {
             data = data.outerHTML;
         }
 
-        let selectIndex = this.getSelectIndex();
+        let selectIndex;
+        if (selected === undefined) {
+            selectIndex = this.getSelectIndex();
+        } else {
+            selectIndex = selected;
+        }
         let text = this._$text.html();
         text = text.substring(0, selectIndex.start) + data + text.substring(selectIndex.end, text.length);
         if (removedTag !== undefined) {

@@ -12,7 +12,26 @@ class Storage {
             this._loadText();
         }
 
-        this._$text.on('DOMSubtreeModified', () => this._changeSave());
+        this._$text
+            .on('DOMSubtreeModified', () => this._changeSave())
+            .keydown((e) => {
+            const z = 90;
+            const y = 89;
+            let thisKey = e.which;
+
+            if (e.ctrlKey) {
+                switch (thisKey) {
+                    case z: {
+                        this.undoOperation();
+                        break;
+                    }
+                    case y: {
+                        this.redoOperation();
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     _saveText() {

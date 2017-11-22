@@ -19,9 +19,9 @@ class Main {
         this._editCommandMap = new Map();
         this._editCommandMap.set('Undo', () => this._storage.undoOperation());
         this._editCommandMap.set('Redo', () => this._storage.redoOperation());
-        this._editCommandMap.set('Copy', () => this._operationUtils.copy());
-        this._editCommandMap.set('Paste', () => this._operationUtils.paste());
-        this._editCommandMap.set('Cut', () => this._operationUtils.cut());
+        this._editCommandMap.set('Copy', () => this._operationUtils.doAction('copy'));
+        this._editCommandMap.set('Paste', () => this._operationUtils.doAction('paste'));
+        this._editCommandMap.set('Cut', () => this._operationUtils.doAction('cut'));
         this._editCommandMap.set('Paste as text', () => this._operationUtils.pasteAsText());
 
         this._controlCommandMap = new Map();
@@ -72,7 +72,9 @@ class Main {
 
         this._$button.click((event) => {
             let action = this._controlCommandMap.get(event.target.id);
-            action();
+            if (action instanceof Function) {
+                action();
+            }
         });
     }
 }
