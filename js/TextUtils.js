@@ -27,36 +27,22 @@ class TextUtils {
     }
 
     getSelectIndex() {
-        if (window.getSelection && document.createRange) {
-            if (window.getSelection().rangeCount > 0) {
-                let range = window.getSelection().getRangeAt(0);
-                let preSelectionRange = range.cloneRange();
-                preSelectionRange.selectNodeContents(this._$text.get()[0]);
-                preSelectionRange.setEnd(range.startContainer, range.startOffset);
+        if (window.getSelection().rangeCount > 0) {
+            let range = window.getSelection().getRangeAt(0);
+            let preSelectionRange = range.cloneRange();
+            preSelectionRange.selectNodeContents(this._$text.get()[0]);
+            preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
-                let start = this.getStartIndex(preSelectionRange, 0);
-
-                return {
-                    start: start,
-                    end: start + this.getStartIndex(range, start)
-                };
-            } else {
-                return {
-                    start: 0,
-                    end: 0
-                };
-            }
-        } else {
-            //Some shit happens
-            let selectedTextRange = document.selection.createRange();
-            let preSelectionTextRange = document.body.createTextRange();
-            preSelectionTextRange.moveToElementText(this._$text.get()[0]);
-            preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
-            let start = preSelectionTextRange.text.length;
+            let start = this.getStartIndex(preSelectionRange, 0);
 
             return {
                 start: start,
-                end: start + selectedTextRange.text.length
+                end: start + this.getStartIndex(range, start)
+            };
+        } else {
+            return {
+                start: 0,
+                end: 0
             };
         }
     }
@@ -84,12 +70,50 @@ class TextUtils {
             selectIndex = selected;
         }
         let text = this._$text.html();
-        text = text.substring(0, selectIndex.start) + data + text.substring(selectIndex.end, text.length);
+        let tempText = text.substring(0, selectIndex.start) + data;
+        text = tempText + text.substring(selectIndex.end, text.length);
+        let cursorPosition = tempText.replace(/<\/?[^>]+(>|$)/g, "").length;
         if (removedTag !== undefined) {
             let openTag = '<' + removedTag + '>';
             let closeTag = '</' + removedTag + '>';
             text = text.replace(new RegExp(openTag + closeTag + '|' + closeTag + openTag, 'g'), '');
         }
         this._$text.html(text);
+        this.setCaretPos(cursorPosition);
+    }
+
+    setCaretPos(cursorPosition) {
+        let element = this._$text.get()[0];
+        let charIndex = 0, range = document.createRange();
+        range.setStart(element, 0);
+        range.collapse(true);
+        let nodeStack = [element];
+        let node;
+        let foundStart = false;
+        let stop = false;
+
+        while (!stop && (node = nodeStack.pop())) {
+            if (node.nodeType === 3) {
+                let nextCharIndex = charIndex + node.length;
+                if (!foundStart && cursorPosition >= charIndex && cursorPosition <= nextCharIndex) {
+                    range.setStart(node, cursorPosition - charIndex);
+                    foundStart = true;
+                }
+                if (foundStart && cursorPosition >= charIndex && cursorPosition <= nextCharIndex) {
+                    range.setEnd(node, cursorPosition - charIndex);
+                    stop = true;
+                }
+                charIndex = nextCharIndex;
+            } else {
+                let i = node.childNodes.length;
+                while (i--) {
+                    nodeStack.push(node.childNodes[i]);
+                }
+            }
+        }
+
+        let selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
     }
 }

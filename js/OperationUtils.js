@@ -28,7 +28,6 @@ class OperationUtils {
             })
             .focusin(() => {
                 this._index = this._textUtils.getSelectIndex();
-                this.focusIn = true;
             });
 
         this._buffer = "";
@@ -47,7 +46,9 @@ class OperationUtils {
     }
 
     paste() {
-        this._textUtils.insertToSelected(this._buffer, undefined, this._index);
+        if (this._buffer !== '') {
+            this._textUtils.insertToSelected(this._buffer, undefined, this._index);
+        }
     }
 
     pasteAsText() {
@@ -58,6 +59,30 @@ class OperationUtils {
 
     copy() {
         let data = this._textUtils.getSelectText(this._index);
+        let text = this._$text.html();
+        let leftPart = text.substring(0, this._index.start);
+        let rightPart = text.substring(this._index.end, text.length);
+
+        let tagArr = ['strong', 'em', 'u'];
+
+        tagArr.forEach((value) => {
+            let openTag = '<' + value + '>';
+            let closeTag = '</' + value + '>';
+
+            let firstLeftOpenTag = leftPart.lastIndexOf(openTag);
+            let firstLeftCloseTag = leftPart.lastIndexOf(closeTag);
+
+            let firstRightOpenTag = rightPart.indexOf(openTag);
+            let firstRightCloseTag = rightPart.indexOf(closeTag);
+
+            if ((firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1 && firstLeftOpenTag !== -1) &&
+                (firstRightCloseTag < firstRightOpenTag || firstRightOpenTag === -1 && firstRightCloseTag !== -1)) {
+                data = openTag + data + closeTag;
+            }
+        });
+
+        console.log(data);
+
         if (data !== '') {
             this._buffer = data;
         }

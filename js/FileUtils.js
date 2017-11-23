@@ -2,7 +2,10 @@ class FileUtils {
 
     constructor(element) {
         this._loader = new FileLoader((result) => {
-            this._$text.html(decodeURI(JSON.parse(result).data));
+            let data = JSON.parse(result);
+            if (data.data) {
+                this._$text.html(decodeURI(data.data));
+            }
         });
 
         this._$text = Utils.getJQueryDOMElement(element);
@@ -20,7 +23,7 @@ class FileUtils {
         $('#frame').remove();
     }
 
-    importText() {
+    exportText() {
         let text = this._$text.html();
         let objectToJson = {};
         objectToJson.data = text;
@@ -31,7 +34,7 @@ class FileUtils {
         link.click();
     }
 
-    exportText() {
+    importText() {
         this._loader.loadFileData('.json');
     }
 }

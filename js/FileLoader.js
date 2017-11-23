@@ -31,11 +31,14 @@ class FileLoader {
             let files = event.target.files;
             if (files.length === 1) {
                 let file = files[0];
-                if (load !== undefined) {
-                    if (load === 'data') {
-                        this._reader.readAsText(file);
-                    } else if (load === 'url') {
-                        this._reader.readAsDataURL(file);
+                let fileName = file.name;
+                if (fileName.substring(fileName.lastIndexOf('.'), fileName.length) === type) {
+                    if (load !== undefined) {
+                        if (load === 'data') {
+                            this._reader.readAsText(file);
+                        } else if (load === 'url') {
+                            this._reader.readAsDataURL(file);
+                        }
                     }
                 }
             }
