@@ -7,7 +7,7 @@ class Main {
         this._$text = $('.text');
 
         this._fileUtils = new FileUtils(this._$text);
-        this._storage = new TextStorage(1000, this._$text);
+        this._storage = new TextStorage(500, this._$text);
         this._operationUtils = new OperationUtils(this._$text);
         this._styleUtils = new StyleUtils(this._$text);
 
@@ -46,7 +46,7 @@ class Main {
                 return;
             }
             let buttonName = Utils.getNodeByClass($elem, 'down-button', 'command').text();
-            Utils.isFunction(this._fileCommandMap.get(buttonName))();
+            Utils.isFunction(this._editCommandMap.get(buttonName))();
         });
 
         this._$button.click((event) => {

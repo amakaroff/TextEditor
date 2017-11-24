@@ -20,9 +20,9 @@ class OperationUtils {
         });
 
         this._$text.on('copy paste cut', (event) => {
-                this.doAction(event.type);
-                event.preventDefault();
-            });
+            this.doAction(event.type);
+            event.preventDefault();
+        });
 
         this._buffer = "";
     }
@@ -39,7 +39,6 @@ class OperationUtils {
 
             this._tagsArray.forEach((value) => {
                 let tag = Utils.createTags(value);
-
                 if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
                     data = tag.open + data + tag.close;
                 }
@@ -50,8 +49,7 @@ class OperationUtils {
     }
 
     pasteAsText() {
-        this._textUtils.insertToSelected(this._buffer.replace(/<\/?[^>]+(>|$)/g, ""), '');
-        this.focusOut = false;
+        this._textUtils.insertToSelected(Utils.removeAllTags(this._buffer), '');
     }
 
     copy() {
@@ -60,7 +58,6 @@ class OperationUtils {
 
         this._tagsArray.forEach((value) => {
             let tag = Utils.createTags(value);
-
             if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
                 data = tag.open + data + tag.close;
             }
@@ -78,10 +75,5 @@ class OperationUtils {
 
     openImage() {
         this._$fileLoader.loadFileUrl('image/*');
-    }
-
-    destroy() {
-        //some
-        this._$text.off();
     }
 }

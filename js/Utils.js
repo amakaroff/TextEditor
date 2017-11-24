@@ -4,7 +4,7 @@ class Utils {
         if (action instanceof Function) {
             return action;
         } else {
-            throw Error(action.toString() + ' is not a function!');
+            throw Error(action + ' is not a function!');
         }
     }
 
@@ -36,26 +36,23 @@ class Utils {
         }
     }
 
-    static isLeftOpenTagFirst(textPart, tag) {
-        let openTag = '<' + tag + '>';
-        let closeTag = '</' + tag + '>';
+    static isLeftOpenTagFirst(textPart, tagName) {
+        let tag = Utils.createTags(tagName);
 
-        let firstLeftOpenTag = textPart.lastIndexOf(openTag);
-        let firstLeftCloseTag = textPart.lastIndexOf(closeTag);
+        let firstLeftOpenTag = textPart.lastIndexOf(tag.open);
+        let firstLeftCloseTag = textPart.lastIndexOf(tag.close);
 
         return firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1 && firstLeftOpenTag !== -1;
     }
 
     static isRightCloseTagFirst(textPart, tag) {
-        let openTag = '<' + tag + '>';
-        let closeTag = '</' + tag + '>';
+        let tag = Utils.createTags(tag);
 
-        let firstRightOpenTag = textPart.indexOf(openTag);
-        let firstRightCloseTag = textPart.indexOf(closeTag);
+        let firstRightOpenTag = textPart.indexOf(tag.open);
+        let firstRightCloseTag = textPart.indexOf(tag.close);
 
         return firstRightCloseTag < firstRightOpenTag || firstRightOpenTag === -1 && firstRightCloseTag !== -1;
     }
-
 
     static getTextParts(elem, index) {
         let text = elem.html();
@@ -73,4 +70,15 @@ class Utils {
 
         return tag;
     }
+
+    static removeAllTags(text) {
+        return text.replace(/<\/?[^>]+(>|$)/g, "");
+    }
+
+    static removeEmptyTags(text, tag) {
+        let tag = Utils.createTags(tag);
+        return text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
+    }
+
+
 }

@@ -24,10 +24,12 @@ class TextStorage {
                 switch (thisKey) {
                     case z: {
                         this.undoOperation();
+                        event.preventDefault();
                         break;
                     }
                     case y: {
                         this.redoOperation();
+                        event.preventDefault();
                         break;
                     }
                 }
@@ -40,7 +42,7 @@ class TextStorage {
             this._currentState = (this._currentState === null) ? 1 : this._currentState + 1;
             let savedObject = {};
             savedObject.text = this._$text.html();
-            savedObject.cursor = this._textUtils.getSelectIndex().end;
+            savedObject.cursor = this._textUtils.getCursorPosition();
             localStorage.setItem(this._currentState.toString(), JSON.stringify(savedObject));
             localStorage.setItem('current', this._currentState);
         }
@@ -72,9 +74,5 @@ class TextStorage {
             localStorage.setItem('current', this._currentState.toString());
             this._loadText();
         }
-    }
-
-    destroy() {
-        this._$text.off('DOMSubtreeModified');
     }
 }

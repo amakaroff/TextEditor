@@ -59,14 +59,20 @@ class TextUtils {
         }
     }
 
-    getSelectText(selected) {
-        let selectIndex;
-        if (selected === undefined) {
-            selectIndex = this.getSelectIndex();
+    getCursorPosition(text) {
+        let partOfText;
+        if (text === undefined) {
+            let index = this.getSelectIndex();
+            partOfText = this._$text.html().substring(0, index.end);
         } else {
-            selectIndex = selected;
+            partOfText = text;
         }
 
+        return Utils.removeAllTags(partOfText).length;
+    }
+
+    getSelectText(selected) {
+        let selectIndex = selected ? selected : this.getSelectIndex();
         return this._$text.html().substring(selectIndex.start, selectIndex.end);
     }
 
@@ -75,20 +81,19 @@ class TextUtils {
             data = data.outerHTML;
         }
 
-        let selectIndex;
-        if (selected === undefined) {
-            selectIndex = this.getSelectIndex();
-        } else {
-            selectIndex = selected;
-        }
+        let selectIndex = selected ? selected : this.getSelectIndex();
         let text = this._$text.html();
         let tempText = text.substring(0, selectIndex.start) + data;
         text = tempText + text.substring(selectIndex.end, text.length);
-        let cursorPosition = tempText.replace(/<\/?[^>]+(>|$)/g, "").length;
+        let cursorPosition = this.getCursorPosition(tempText);
         if (removedTag !== undefined) {
-            let openTag = '<' + removedTag + '>';
-            let closeTag = '</' + removedTag + '>';
-            text = text.replace(new RegExp(openTag + closeTag + '|' + closeTag + openTag, 'g'), '');
+            if (removedTag instanceof Array) {
+                removedTag.forEach((tag) => {
+                    text = Utils.removeEmptyTags(text, tag);
+                });
+            } else {
+                text = Utils.removeEmptyTags(text, removedTag);
+            }
         }
         this._$text.html(text);
         this.setCursorPosition(cursorPosition);

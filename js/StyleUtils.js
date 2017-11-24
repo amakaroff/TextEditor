@@ -22,10 +22,7 @@ class StyleUtils {
     }
 
     doAction(action) {
-        let tag = this._tagMap.get(action);
-
-        let openTag = '<' + tag + '>';
-        let closeTag = '</' + tag + '>';
+        let tag = Utils.createTags(this._tagMap.get(action));
 
         let text = this._$text.html();
 
@@ -35,42 +32,42 @@ class StyleUtils {
         let leftPart = text.substring(0, index.start);
         let rightPart = text.substring(index.end, text.length);
 
-        let firstLeftOpenTag = leftPart.lastIndexOf(openTag);
-        let firstLeftCloseTag = leftPart.lastIndexOf(closeTag);
+        let firstLeftOpenTag = leftPart.lastIndexOf(tag.open);
+        let firstLeftCloseTag = leftPart.lastIndexOf(tag.close);
 
-        let firstRightOpenTag = rightPart.indexOf(openTag);
-        let firstRightCloseTag = rightPart.indexOf(closeTag);
+        let firstRightOpenTag = rightPart.indexOf(tag.open);
+        let firstRightCloseTag = rightPart.indexOf(tag.close);
 
-        let openTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(openTag, 'g')));
-        let closeTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(closeTag, 'g')));
+        let openTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(tag.open, 'g')));
+        let closeTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(tag.close, 'g')));
 
         if (openTagCount !== 0 || closeTagCount !== 0) {
-            selectedText = selectedText.replace(new RegExp(openTag, 'g'), '');
-            selectedText = selectedText.replace(new RegExp(closeTag, 'g'), '');
+            selectedText = selectedText.replace(new RegExp(tag.open, 'g'), '');
+            selectedText = selectedText.replace(new RegExp(tag.close, 'g'), '');
 
             text = selectedText;
             if (firstLeftOpenTag <= firstLeftCloseTag) {
-                text = openTag + text;
+                text = tag.open + text;
             }
 
             if (firstRightOpenTag === -1 && firstRightCloseTag === -1) {
-                text = text + closeTag;
+                text = text + tag.close;
             } else  if (firstRightOpenTag <= firstRightCloseTag && firstRightOpenTag !== -1) {
-                text = text + closeTag;
+                text = text + tag.close;
             }
         } else {
             text = selectedText;
 
             if ((firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1) && firstLeftOpenTag !== -1) {
-                text = closeTag + text;
+                text = tag.close + text;
             } else {
-                text = text + closeTag;
+                text = text + tag.close;
             }
 
             if ((firstRightOpenTag > firstRightCloseTag || firstRightOpenTag === -1) && firstRightCloseTag !== - 1) {
-                text = text + openTag;
+                text = text + tag.open;
             } else {
-                text = openTag + text;
+                text = tag.open + text;
             }
         }
 
