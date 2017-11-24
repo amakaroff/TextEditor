@@ -32,7 +32,7 @@ class FileLoader {
             if (files.length === 1) {
                 let file = files[0];
                 let fileName = file.name;
-                if (!type.endsWith('/*') || fileName.substring(fileName.lastIndexOf('.'), fileName.length) === type) {
+                if (type.endsWith('/*') || fileName.substring(fileName.lastIndexOf('.'), fileName.length) === type) {
                     if (load !== undefined) {
                         if (load === 'data') {
                             this._reader.readAsText(file);
