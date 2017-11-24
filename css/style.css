@@ -112,9 +112,15 @@ hr {
     padding: 6px;
     display: block;
 }
+
 .down-button:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+
+.test-with-icon {
+    float: left;
+    padding-left: 10px;
 }
 
 .separator {
