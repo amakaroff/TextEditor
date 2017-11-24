@@ -7,7 +7,7 @@ class Main {
         this._$text = $('.text');
 
         this._fileUtils = new FileUtils(this._$text);
-        this._storage = new Storage(1000, this._$text);
+        this._storage = new TextStorage(1000, this._$text);
         this._operationUtils = new OperationUtils(this._$text);
         this._styleUtils = new StyleUtils(this._$text);
 
@@ -34,30 +34,10 @@ class Main {
         this._controlCommandMap.set('image', () => this._operationUtils.openImage());
     }
 
-    static _getEditCommand($elem) {
-        let command = '';
-        if ($elem.hasClass('command')) {
-            command = $elem.text();
-        } else {
-            if ($elem.hasClass('down-button')) {
-                command = $elem.find('.command').text();
-            } else {
-                command = $elem.parent().find('.command').text();
-            }
-        }
-
-        if (command === '') {
-            throw Error('Wrong added element');
-        }
-
-        return command;
-    }
-
     main() {
         this._$fileDown.click((event) => {
             let buttonName = event.target.innerText;
-            let action = this._fileCommandMap.get(buttonName);
-            action();
+            Utils.isFunction(this._fileCommandMap.get(buttonName))();
         });
 
         this._$editDown.click((event) => {
@@ -65,16 +45,13 @@ class Main {
             if ($elem.hasClass('separator') || $elem.hasClass('dropdown-menu')) {
                 return;
             }
-
-            let action = this._editCommandMap.get(Main._getEditCommand($elem));
-            action();
+            let buttonName = Utils.getNodeByClass($elem, 'down-button', 'command').text();
+            Utils.isFunction(this._fileCommandMap.get(buttonName))();
         });
 
         this._$button.click((event) => {
-            let action = this._controlCommandMap.get(event.target.id);
-            if (action instanceof Function) {
-                action();
-            }
+            let buttonName = event.target.id;
+            Utils.isFunction(this._controlCommandMap.get(buttonName))();
         });
     }
 }

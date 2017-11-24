@@ -6,6 +6,8 @@ class OperationUtils {
         this._index = undefined;
         this._commandMap = new Map();
 
+        this._tagsArray = ['strong', 'em', 'u'];
+
         this._commandMap.set(67, () => this.copy());
         this._commandMap.set(88, () => this.cut());
         this._commandMap.set(86, () => this.paste());
@@ -14,74 +16,55 @@ class OperationUtils {
             let image = document.createElement('img');
             image.setAttribute('src', data);
             image.setAttribute('class', 'image');
-            this._textUtils.insertToSelected(image.outerHTML);
+            this._textUtils.insertToSelected(image.outerHTML, '', this._index);
         });
 
-        this._$text
-            .on('copy paste cut', (event) => {
+        this._$text.on('copy paste cut', (event) => {
                 this.doAction(event.type);
                 event.preventDefault();
-            })
-            .focusout(() => {
-                this._index = this._textUtils.getSelectIndex();
-                this.focusIn = true;
-            })
-            .focusin(() => {
-                this._index = this._textUtils.getSelectIndex();
             });
 
         this._buffer = "";
     }
 
     doAction(action) {
-        this._fillIndex();
         this[action]();
-        this.focusIn = false;
-    }
-
-    _fillIndex() {
-        if (!this.focusIn) {
-            this._index = this._textUtils.getSelectIndex();
-        }
     }
 
     paste() {
         if (this._buffer !== '') {
-            this._textUtils.insertToSelected(this._buffer, undefined, this._index);
+
+            let data = this._buffer;
+            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+
+            this._tagsArray.forEach((value) => {
+                let tag = Utils.createTags(value);
+
+                if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
+                    data = tag.open + data + tag.close;
+                }
+            });
+
+            this._textUtils.insertToSelected(data, undefined);
         }
     }
 
     pasteAsText() {
-        this._fillIndex();
-        this._textUtils.insertToSelected(this._buffer.replace(/<\/?[^>]+(>|$)/g, ""), '', this._index);
-        this.focusIn = false;
+        this._textUtils.insertToSelected(this._buffer.replace(/<\/?[^>]+(>|$)/g, ""), '');
+        this.focusOut = false;
     }
 
     copy() {
-        let data = this._textUtils.getSelectText(this._index);
-        let text = this._$text.html();
-        let leftPart = text.substring(0, this._index.start);
-        let rightPart = text.substring(this._index.end, text.length);
+        let data = this._textUtils.getSelectText();
+        let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
 
-        let tagArr = ['strong', 'em', 'u'];
+        this._tagsArray.forEach((value) => {
+            let tag = Utils.createTags(value);
 
-        tagArr.forEach((value) => {
-            let openTag = '<' + value + '>';
-            let closeTag = '</' + value + '>';
-
-            let firstLeftOpenTag = leftPart.lastIndexOf(openTag);
-            let firstLeftCloseTag = leftPart.lastIndexOf(closeTag);
-
-            let firstRightOpenTag = rightPart.indexOf(openTag);
-            let firstRightCloseTag = rightPart.indexOf(closeTag);
-
-            if ((firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1 && firstLeftOpenTag !== -1) &&
-                (firstRightCloseTag < firstRightOpenTag || firstRightOpenTag === -1 && firstRightCloseTag !== -1)) {
-                data = openTag + data + closeTag;
+            if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
+                data = tag.open + data + tag.close;
             }
         });
-
-        console.log(data);
 
         if (data !== '') {
             this._buffer = data;
@@ -89,8 +72,8 @@ class OperationUtils {
     }
 
     cut() {
-        this._buffer = this._textUtils.getSelectText(this._index);
-        this._textUtils.insertToSelected('', undefined, this._index);
+        this._buffer = this._textUtils.getSelectText();
+        this._textUtils.insertToSelected('', undefined);
     }
 
     openImage() {

@@ -2,6 +2,14 @@ class TextUtils {
 
     constructor(element) {
         this._$text = Utils.getJQueryDOMElement(element);
+
+        this._$text.focusout(() => {
+            this._savedIndex = this.getSelectIndex();
+            this.focusOut = true;
+        })
+            .focusin(() => {
+                this.focusOut = false;
+            });
     }
 
     getStartIndex(range, firstIndex) {
@@ -27,6 +35,10 @@ class TextUtils {
     }
 
     getSelectIndex() {
+        if (this.focusOut) {
+            return this._savedIndex;
+        }
+
         if (window.getSelection().rangeCount > 0) {
             let range = window.getSelection().getRangeAt(0);
             let preSelectionRange = range.cloneRange();
@@ -79,10 +91,10 @@ class TextUtils {
             text = text.replace(new RegExp(openTag + closeTag + '|' + closeTag + openTag, 'g'), '');
         }
         this._$text.html(text);
-        this.setCaretPos(cursorPosition);
+        this.setCursorPosition(cursorPosition);
     }
 
-    setCaretPos(cursorPosition) {
+    setCursorPosition(cursorPosition) {
         let element = this._$text.get()[0];
         let charIndex = 0, range = document.createRange();
         range.setStart(element, 0);

@@ -1,6 +1,7 @@
-class Storage {
+class TextStorage {
 
     constructor(time, element) {
+        this._textUtils = new TextUtils(element);
         this._changeSave = _.debounce(this._saveText, time);
         this._$text = Utils.getJQueryDOMElement(element);
 
@@ -14,12 +15,12 @@ class Storage {
 
         this._$text
             .on('DOMSubtreeModified', () => this._changeSave())
-            .keydown((e) => {
+            .keydown((event) => {
             const z = 90;
             const y = 89;
-            let thisKey = e.which;
+            let thisKey = event.which;
 
-            if (e.ctrlKey) {
+            if (event.ctrlKey) {
                 switch (thisKey) {
                     case z: {
                         this.undoOperation();
@@ -37,7 +38,10 @@ class Storage {
     _saveText() {
         if (!this._isOperation) {
             this._currentState = (this._currentState === null) ? 1 : this._currentState + 1;
-            localStorage.setItem(this._currentState.toString(), this._$text.html());
+            let savedObject = {};
+            savedObject.text = this._$text.html();
+            savedObject.cursor = this._textUtils.getSelectIndex().end;
+            localStorage.setItem(this._currentState.toString(), JSON.stringify(savedObject));
             localStorage.setItem('current', this._currentState);
         }
 
@@ -46,25 +50,25 @@ class Storage {
 
     _loadText() {
         if (this._currentState >= 1 && localStorage.getItem(this._currentState.toString()) !== null) {
-            this._$text.html(localStorage.getItem(this._currentState.toString()));
+            let savedObject = JSON.parse(localStorage.getItem(this._currentState.toString()));
+            this._$text.html(savedObject.text);
+            this._textUtils.setCursorPosition(savedObject.cursor);
         }
     }
 
     undoOperation() {
-        this._isOperation = true;
-
         if (this._currentState !== 1) {
             this._currentState--;
+            this._isOperation = true;
             localStorage.setItem('current', this._currentState.toString());
             this._loadText();
         }
     }
 
     redoOperation() {
-        this._isOperation = true;
-
         if (localStorage.getItem((this._currentState + 1).toString()) !== null) {
             this._currentState++;
+            this._isOperation = true;
             localStorage.setItem('current', this._currentState.toString());
             this._loadText();
         }
