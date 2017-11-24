@@ -22,7 +22,7 @@ class Main {
         this._editCommandMap.set('Copy', () => this._operationUtils.doAction('copy'));
         this._editCommandMap.set('Paste', () => this._operationUtils.doAction('paste'));
         this._editCommandMap.set('Cut', () => this._operationUtils.doAction('cut'));
-        this._editCommandMap.set('Paste as text', () => this._operationUtils.pasteAsText());
+        this._editCommandMap.set('Paste as text', () => this._operationUtils.paste(true));
 
         this._controlCommandMap = new Map();
         this._controlCommandMap.set('undo', () => this._storage.undoOperation());
@@ -51,7 +51,9 @@ class Main {
 
         this._$button.click((event) => {
             let buttonName = event.target.id;
-            Utils.isFunction(this._controlCommandMap.get(buttonName))();
+            if (buttonName !== '') {
+                Utils.isFunction(this._controlCommandMap.get(buttonName))();
+            }
         });
     }
 }

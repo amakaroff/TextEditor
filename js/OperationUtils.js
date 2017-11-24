@@ -31,25 +31,33 @@ class OperationUtils {
         this[action]();
     }
 
-    paste() {
+    paste(isAsText) {
         if (this._buffer !== '') {
-
-            let data = this._buffer;
+            let data = isAsText ? Utils.removeAllTags(this._buffer) : this._buffer;
+            console.log(data);
             let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+            let selectedText = this._textUtils.getSelectText();
 
             this._tagsArray.forEach((value) => {
                 let tag = Utils.createTags(value);
                 if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
-                    data = tag.open + data + tag.close;
+                    data = tag.close + data + tag.open;
+                }
+
+                let openTagCount = Utils.getOpenTagCount(selectedText, value);
+                let closeTagCount = Utils.getCloseTagCount(selectedText, value);
+
+                if (openTagCount > closeTagCount) {
+                    data = data + tag.open;
+                } else if (closeTagCount > openTagCount) {
+                    data = tag.close + data;
                 }
             });
 
-            this._textUtils.insertToSelected(data, undefined);
-        }
-    }
+            console.log(data);
 
-    pasteAsText() {
-        this._textUtils.insertToSelected(Utils.removeAllTags(this._buffer), '');
+            this._textUtils.insertToSelected(data, this._tagsArray);
+        }
     }
 
     copy() {
@@ -70,7 +78,7 @@ class OperationUtils {
 
     cut() {
         this._buffer = this._textUtils.getSelectText();
-        this._textUtils.insertToSelected('', undefined);
+        this._textUtils.insertToSelected('', this._tagsArray);
     }
 
     openImage() {

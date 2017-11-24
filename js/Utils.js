@@ -17,11 +17,8 @@ class Utils {
     }
 
     static getLengthOfArray(array) {
-        if (array === null) {
-            return 0;
-        } else {
-            return array.length;
-        }
+        return array ? array.length : 0;
+
     }
 
     static getNodeByClass(element, upperClass, lowerClass) {
@@ -45,13 +42,31 @@ class Utils {
         return firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1 && firstLeftOpenTag !== -1;
     }
 
-    static isRightCloseTagFirst(textPart, tag) {
-        let tag = Utils.createTags(tag);
+    static isLeftCloseTagFirst(textPart, tagName) {
+        let tag = Utils.createTags(tagName);
+
+        let firstLeftOpenTag = textPart.lastIndexOf(tag.open);
+        let firstLeftCloseTag = textPart.lastIndexOf(tag.close);
+
+        return firstLeftOpenTag < firstLeftCloseTag || firstLeftOpenTag === -1;
+    }
+
+    static isRightCloseTagFirst(textPart, tagName) {
+        let tag = Utils.createTags(tagName);
 
         let firstRightOpenTag = textPart.indexOf(tag.open);
         let firstRightCloseTag = textPart.indexOf(tag.close);
 
         return firstRightCloseTag < firstRightOpenTag || firstRightOpenTag === -1 && firstRightCloseTag !== -1;
+    }
+
+    static isRightOpenTagFirst(textPart, tagName) {
+        let tag = Utils.createTags(tagName);
+
+        let firstRightOpenTag = textPart.indexOf(tag.open);
+        let firstRightCloseTag = textPart.indexOf(tag.close);
+
+        return firstRightCloseTag > firstRightOpenTag || firstRightCloseTag === -1;
     }
 
     static getTextParts(elem, index) {
@@ -75,10 +90,18 @@ class Utils {
         return text.replace(/<\/?[^>]+(>|$)/g, "");
     }
 
-    static removeEmptyTags(text, tag) {
-        let tag = Utils.createTags(tag);
+    static removeEmptyTags(text, tagName) {
+        let tag = Utils.createTags(tagName);
         return text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
     }
 
+    static getOpenTagCount(text, tagName) {
+        let tag = Utils.createTags(tagName);
+        return Utils.getLengthOfArray(text.match(new RegExp(tag.open, 'g')));
+    }
 
+    static getCloseTagCount(text, tagName) {
+        let tag = Utils.createTags(tagName);
+        return Utils.getLengthOfArray(text.match(new RegExp(tag.close, 'g')));
+    }
 }

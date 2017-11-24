@@ -71,8 +71,8 @@ class TextUtils {
         return Utils.removeAllTags(partOfText).length;
     }
 
-    getSelectText(selected) {
-        let selectIndex = selected ? selected : this.getSelectIndex();
+    getSelectText(index) {
+        let selectIndex = index ? index : this.getSelectIndex();
         return this._$text.html().substring(selectIndex.start, selectIndex.end);
     }
 

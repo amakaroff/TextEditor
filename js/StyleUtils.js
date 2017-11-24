@@ -22,7 +22,8 @@ class StyleUtils {
     }
 
     doAction(action) {
-        let tag = Utils.createTags(this._tagMap.get(action));
+        let tagName = this._tagMap.get(action);
+        let tag = Utils.createTags(tagName);
 
         let text = this._$text.html();
 
@@ -38,8 +39,8 @@ class StyleUtils {
         let firstRightOpenTag = rightPart.indexOf(tag.open);
         let firstRightCloseTag = rightPart.indexOf(tag.close);
 
-        let openTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(tag.open, 'g')));
-        let closeTagCount = Utils.getLengthOfArray(selectedText.match(new RegExp(tag.close, 'g')));
+        let openTagCount = Utils.getOpenTagCount(selectedText, tagName);
+        let closeTagCount = Utils.getCloseTagCount(selectedText, tagName);
 
         if (openTagCount !== 0 || closeTagCount !== 0) {
             selectedText = selectedText.replace(new RegExp(tag.open, 'g'), '');
@@ -71,6 +72,6 @@ class StyleUtils {
             }
         }
 
-        this._textUtils.insertToSelected(text, tag);
+        this._textUtils.insertToSelected(text, tagName);
     }
 }
