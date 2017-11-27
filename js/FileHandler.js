@@ -42,11 +42,11 @@ class FileHandler {
     exportText() {
         let text = this._$text.html();
         let objectToJson = {data: text};
-        let link = $('<a/>');
+        let $link = $('<a/>');
         let file = new File([JSON.stringify(objectToJson)], {'type': 'json'});
-        link.href = window.URL.createObjectURL(file);
-        link.download = 'text.json';
-        link.click();
+        $link.attr('href', window.URL.createObjectURL(file));
+        $link.attr('download', 'text.json');
+        $link.get()[0].click();
     }
 
     importText() {

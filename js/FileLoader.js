@@ -19,13 +19,12 @@ class FileLoader {
     }
 
     _loadFile(type, load) {
-        let input = document.createElement('input');
-        input.setAttribute('type', 'file');
+        let $input = $('<input/>');
+        $input.attr('type', 'file');
         if (type !== undefined) {
-            input.setAttribute('accept', type);
+            $input.attr('accept', type);
         }
-        input.click();
-        let $input = $(input);
+        $input.get()[0].click();
         $input.on('change', (event) => {
             let files = event.target.files;
             if (files.length === 1) {

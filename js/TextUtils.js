@@ -14,9 +14,9 @@ class TextUtils {
     }
 
     getStartIndex(range, firstIndex) {
-        let div = document.createElement('div');
-        div.appendChild(range.cloneContents().cloneNode(true));
-        let text = div.innerHTML;
+        let $storage = $('<div>');
+        $storage.append(range.cloneContents().cloneNode(true));
+        let text = $storage.html();
         let fullText = this._$text.html();
 
         if (text[text.length - 1] === '>') {
@@ -26,7 +26,7 @@ class TextUtils {
         }
 
         if (text[0] === '<') {
-            text = div.innerHTML;
+            text = $storage.html();
             while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length)) {
                 text = text.substring(text.indexOf('>') + 1, text.length);
             }

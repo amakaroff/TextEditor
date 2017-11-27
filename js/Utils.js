@@ -65,8 +65,8 @@ class Utils {
 
     static createTags(tagName) {
         let tag = {};
-        tag.open = '<' + tagName + '>';
-        tag.close = '</' + tagName + '>';
+        tag.open = `<${tagName}>`;
+        tag.close = `</${tagName}>`;
 
         return tag;
     }
