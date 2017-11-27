@@ -49,7 +49,7 @@ hr {
 .button-header {
     border: 1px solid black;
     border-bottom: 0;
-    padding: 3px;
+    padding: 5px;
 }
 
 .text {
@@ -60,6 +60,7 @@ hr {
     font-size: 20px;
     resize: none;
     overflow: hidden;
+    padding: 5px;
 }
 
 .functional-button {
@@ -75,13 +76,13 @@ hr {
 }
 
 .functional-button-list {
-    width: 44px;
+    width: 45px;
     height: 32px;
     text-align: center;
     box-sizing: border-box;
     display: inline-block;
-    padding-top: 6px;
     background-color: rgb(232, 232, 238);
+    border: none;
     border-radius: 2px;
 }
 
@@ -113,7 +114,11 @@ hr {
     display: block;
 }
 
-.down-button:hover {
+.format-down-button {
+    padding: 1px;
+}
+
+.hover-down-button:hover {
     background-color: lightgray;
     cursor: pointer;
 }
@@ -129,7 +134,11 @@ hr {
 }
 
 .down-menu {
-    min-width: 100px !important;
+     min-width: 100px !important;
+}
+
+.format-down-menu {
+    min-width: 45px !important;
 }
 
 .menu-button-top {
@@ -152,23 +161,64 @@ hr {
     float: right;
 }
 
-.text-left {
-    text-align: left;
+.input-field {
+    width: 50px;
 }
 
-.text-right {
-    text-align: right;
+.table-down-menu {
+    padding: 5px !important;
 }
 
-.text-center {
-    text-align: center;
+.table-element {
+    padding: 3px;
 }
 
 .image {
     width: 250px;
     height: 250px;
     float: left;
-    margin: 7px 7px 7px 0;
+    padding: 7px;
 }
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.generate-table {
+    display: inline-table;
+}
+
+.table-cell {
+    border: 1px solid black;
+    min-width: 50px;
+    min-height: 30px;
+    padding: 2px;
+}
+
+.new-button {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+    margin-right: 3px;
+    border-radius: 2px;
+}
+
+.new-button:hover {
+    opacity:.70;
+    cursor: pointer;
+}
+
 
 

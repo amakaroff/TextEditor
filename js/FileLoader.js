@@ -1,12 +1,13 @@
 class FileLoader {
 
-    constructor(callback) {
+    constructor(callback, errorHandler) {
         this._reader = new FileReader();
         this._reader.onload = (event) => {
             if (callback instanceof Function) {
                 callback(this._reader.result, event);
             }
         };
+        this._errorHandler = errorHandler;
     }
 
     loadFileData(type) {
@@ -24,9 +25,7 @@ class FileLoader {
             input.setAttribute('accept', type);
         }
         input.click();
-
         let $input = $(input);
-
         $input.on('change', (event) => {
             let files = event.target.files;
             if (files.length === 1) {
@@ -40,6 +39,9 @@ class FileLoader {
                             this._reader.readAsDataURL(file);
                         }
                     }
+                } else {
+                    let fileType = type.substring(type.lastIndexOf('.') + 1, type.length);
+                    this._errorHandler.send(`File type should be ${fileType}!`);
                 }
             }
         });

@@ -1,8 +1,8 @@
-class StyleUtils {
+class StyleHandler {
 
-    constructor(element) {
+    constructor(element, textUtils) {
         this._$text = Utils.getJQueryDOMElement(element);
-        this._textUtils = new TextUtils(this._$text);
+        this._textUtils = textUtils;
         this._tagMap = new Map();
         this._tagMap.set('bold', 'strong');
         this._tagMap.set('italic', 'em');

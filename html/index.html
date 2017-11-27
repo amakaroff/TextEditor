@@ -14,23 +14,22 @@
             <div class="dropdown menu-button">
                 <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">File</button>
                 <ul class="dropdown-menu down-menu" id="file-menu">
-                    <li class="down-button">Import</li>
-                    <li class="down-button">Export</li>
-                    <li class="down-button">Print</li>
+                    <li class="down-button hover-down-button">Import</li>
+                    <li class="down-button hover-down-button">Export</li>
+                    <li class="down-button hover-down-button">Print</li>
                 </ul>
             </div>
-
             <div class="dropdown menu-button">
                 <button class="button menu-button dropdown-toggle" type="button" data-toggle="dropdown">Edit</button>
                 <ul class="dropdown-menu" id="edit-menu">
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="test-with-icon">
                             <span class="fa fa-undo"></span>
                             <span class="command">Undo</span>
                         </span>
                         <span class="button-tag to-right">Ctrl+Z</span>
                     </li>
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="test-with-icon">
                             <span class="fa fa-repeat"></span>
                             <span class="command">Redo</span>
@@ -40,28 +39,28 @@
                     <li>
                         <hr class="separator">
                     </li>
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="test-with-icon">
                             <span class="fa fa-scissors"></span>
                             <span class="command">Cut</span>
                         </span>
                         <span class="button-tag to-right">Ctrl+X</span>
                     </li>
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="test-with-icon">
                             <span class="fa fa-files-o"></span>
                             <span class="command">Copy</span>
                         </span>
                         <span class="button-tag to-right">Ctrl+C</span>
                     </li>
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="test-with-icon">
                             <span class="fa fa-clipboard"></span>
                             <span class="command">Paste</span>
                         </span>
                         <span class="button-tag to-right">Ctrl+V</span>
                     </li>
-                    <li class="down-button">
+                    <li class="down-button hover-down-button">
                         <span class="command">Paste as text</span>
                     </li>
                 </ul>
@@ -73,56 +72,116 @@
             <span class="functional-button fa fa-lg fa-italic" id="italic"></span>
             <span class="functional-button fa fa-lg fa-bold" id="bold"></span>
             <span class="functional-button fa fa-lg fa-underline" id="underline"></span>
-            <span class="functional-button-list">
-                    <span class="fa fa-lg fa-list" id="format"></span>
+            <div class="dropdown menu-button">
+                <button class="functional-button-list dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="fa fa-lg fa-list"></span>
                     <span class="fa functional-button-list-down functional-button-down fa-sort-desc"></span>
-                </span>
-            <span class="functional-button fa fa-lg fa-table" id="table"></span>
+                </button>
+                <ul class="dropdown-menu format-down-menu">
+                    <li class="down-button format-down-button">
+                        <span class="functional-button fa fa-lg fa-align-justify"></span>
+                    </li>
+                    <li class="down-button format-down-button">
+                        <span class="functional-button fa fa-lg fa-align-center"></span>
+                    </li>
+                    <li class="down-button format-down-button">
+                        <span class="functional-button fa fa-lg fa-align-left"></span>
+                    </li>
+                    <li class="down-button format-down-button">
+                        <span class="functional-button fa fa-lg fa-align-right"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown menu-button">
+                <span class="functional-button fa fa-lg fa-table" data-toggle="dropdown"></span>
+                <div class="dropdown-menu table-down-menu">
+                    <div class="table-element">
+                        <label for="column">Columns: </label>
+                        <input class="input-field to-right" type="number" id="column" min="0">
+                    </div>
+                    <div class="table-element">
+                        <label for="row">Row: </label>
+                        <input class="input-field to-right" type="number" id="row" min="0">
+                    </div>
+                    <div class="table-element">
+                        <button class="to-left">Create</button>
+                        <button class="to-right">Close</button>
+                    </div>
+                </div>
+            </div>
             <span class="functional-button fa fa-lg fa-picture-o" id="image"></span>
         </div>
     </header>
     <main>
         <div class="text" contenteditable="true">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lacus justo, hendrerit in mi in, tempor
-            finibus felis. Praesent luctus massa nec lectus blandit sagittis. Duis mollis lorem purus. Phasellus
-            ullamcorper tellus at dolor laoreet efficitur viverra sit amet tellus. Donec egestas pellentesque volutpat.
-            Maecenas sapien velit, consectetur nec velit a, maximus venenatis ipsum. Mauris commodo placerat turpis, at
-            dignissim diam lacinia sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-            himenaeos.
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lacus justo, hendrerit in mi in,
+                tempor
+                finibus felis. Praesent luctus massa nec lectus blandit sagittis. Duis mollis lorem purus. Phasellus
+                ullamcorper tellus at dolor laoreet efficitur viverra sit amet tellus. Donec egestas pellentesque
+                volutpat.
+                Maecenas sapien velit, consectetur nec velit a, maximus venenatis ipsum. Mauris commodo placerat turpis,
+                at
+                dignissim diam lacinia sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                inceptos
+                himenaeos.
 
-            Integer euismod neque vitae est varius eleifend. Praesent a mollis nibh. In ornare diam et ullamcorper
-            volutpat. Vestibulum laoreet egestas varius. Integer in sapien pharetra, sagittis erat id, ultricies lacus.
-            In semper iaculis est, sit amet pulvinar mauris tincidunt vitae. Sed posuere magna ut orci rutrum, sed
-            pellentesque lacus sagittis. Aliquam erat volutpat. Sed risus tellus, lobortis hendrerit arcu eget,
-            porttitor auctor dui. Integer faucibus ullamcorper lorem vitae porta. Nullam non dictum orci. Maecenas
-            rutrum id metus ac ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies
-            ultricies quam, vel faucibus lorem volutpat nec. Ut ut sapien augue.
+                Integer euismod neque vitae est varius eleifend. Praesent a mollis nibh. In ornare diam et ullamcorper
+                volutpat. Vestibulum laoreet egestas varius. Integer in sapien pharetra, sagittis erat id, ultricies
+                lacus.
+                In semper iaculis est, sit amet pulvinar mauris tincidunt vitae. Sed posuere magna ut orci rutrum, sed
+                pellentesque lacus sagittis. Aliquam erat volutpat. Sed risus tellus, lobortis hendrerit arcu eget,
+                porttitor auctor dui. Integer faucibus ullamcorper lorem vitae porta. Nullam non dictum orci. Maecenas
+                rutrum id metus ac ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies
+                ultricies quam, vel faucibus lorem volutpat nec. Ut ut sapien augue.
 
-            Cras id orci et urna euismod rhoncus in in erat. Aenean vel sem tempus, interdum eros non, gravida orci. Sed
-            cursus quam eu tellus efficitur faucibus. Ut egestas malesuada augue vel aliquam. Interdum et malesuada
-            fames ac ante ipsum primis in faucibus. Phasellus sed accumsan sapien. Proin malesuada est quis massa
-            condimentum, a accumsan mauris lacinia. Praesent consectetur, mi hendrerit dapibus pretium, ligula orci
-            maximus magna, non fermentum felis lacus nec nisi. Suspendisse quis turpis vel leo vulputate commodo.
-            Phasellus magna turpis, cursus ut nisi ut, aliquam euismod ante. Nulla vehicula commodo quam, vehicula
-            euismod mauris dapibus iaculis. Maecenas blandit at lacus et convallis. Vestibulum tincidunt, quam sit amet
-            pretium pulvinar, mi turpis ullamcorper nisl, vitae mattis libero ex vel nisl. Suspendisse ac lacus dui.
-            Nunc sagittis ligula id malesuada maximus.
+                Cras id orci et urna euismod rhoncus in in erat. Aenean vel sem tempus, interdum eros non, gravida orci.
+                Sed
+                cursus quam eu tellus efficitur faucibus. Ut egestas malesuada augue vel aliquam. Interdum et malesuada
+                fames ac ante ipsum primis in faucibus. Phasellus sed accumsan sapien. Proin malesuada est quis massa
+                condimentum, a accumsan mauris lacinia. Praesent consectetur, mi hendrerit dapibus pretium, ligula orci
+                maximus magna, non fermentum felis lacus nec nisi. Suspendisse quis turpis vel leo vulputate commodo.
+                Phasellus magna turpis, cursus ut nisi ut, aliquam euismod ante. Nulla vehicula commodo quam, vehicula
+                euismod mauris dapibus iaculis. Maecenas blandit at lacus et convallis. Vestibulum tincidunt, quam sit
+                amet
+                pretium pulvinar, mi turpis ullamcorper nisl, vitae mattis libero ex vel nisl. Suspendisse ac lacus dui.
+                Nunc sagittis ligula id malesuada maximus.
 
-            Donec eleifend, quam vitae porta venenatis, lorem urna eleifend lectus, id eleifend velit elit et velit.
-            Mauris et faucibus quam. Aliquam erat volutpat. Donec sit amet mauris pellentesque, faucibus tellus
-            ultrices, elementum orci. Donec pretium dapibus elit non tristique. In sodales, velit ut viverra volutpat,
-            mi sem consectetur sapien, eget viverra lectus tortor at nibh. Sed velit ligula, vulputate nec accumsan et,
-            laoreet sit amet mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a pulvinar mi.
-            Suspendisse potenti. In aliquam erat sed libero vehicula, quis aliquam turpis aliquet.
+                Donec eleifend, quam vitae porta venenatis, lorem urna eleifend lectus, id eleifend velit elit et velit.
+                Mauris et faucibus quam. Aliquam erat volutpat. Donec sit amet mauris pellentesque, faucibus tellus
+                ultrices, elementum orci. Donec pretium dapibus elit non tristique. In sodales, velit ut viverra
+                volutpat,
+                mi sem consectetur sapien, eget viverra lectus tortor at nibh. Sed velit ligula, vulputate nec accumsan
+                et,
+                laoreet sit amet mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a pulvinar mi.
+                Suspendisse potenti. In aliquam erat sed libero vehicula, quis aliquam turpis aliquet.
 
-            Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam eget orci in
-            sapien tempus accumsan in in felis. Aenean in odio nunc. Curabitur erat erat, pretium a mauris at,
-            condimentum condimentum dui. Etiam in libero quis justo hendrerit accumsan. Curabitur sodales porta lectus
-            id blandit. Nunc consectetur, mi vel porta semper, dui nibh posuere nibh, mollis pharetra metus justo id
-            erat. Ut mollis massa velit, non dapibus ex efficitur quis. Suspendisse in lectus placerat, suscipit massa
-            id, lacinia ante.
+                Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam eget orci
+                in
+                sapien tempus accumsan in in felis. Aenean in odio nunc. Curabitur erat erat, pretium a mauris at,
+                condimentum condimentum dui. Etiam in libero quis justo hendrerit accumsan. Curabitur sodales porta
+                lectus
+                id blandit. Nunc consectetur, mi vel porta semper, dui nibh posuere nibh, mollis pharetra metus justo id
+                erat. Ut mollis massa velit, non dapibus ex efficitur quis. Suspendisse in lectus placerat, suscipit
+                massa
+                id, lacinia ante.
+            </div>
         </div>
     </main>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Error!</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
@@ -131,11 +190,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
 <script src="../js/TextUtils.js" defer></script>
 <script src="../js/FileLoader.js" defer></script>
-<script src="../js/FileUtils.js" defer></script>
-<script src="../js/OperationUtils.js" defer></script>
-<script src="../js/Storage.js" defer></script>
-<script src="../js/StyleUtils.js" defer></script>
+<script src="../js/FileHandler.js" defer></script>
+<script src="../js/TextOperations.js" defer></script>
+<script src="../js/TextStorage.js" defer></script>
+<script src="../js/StyleHandler.js" defer></script>
 <script src="../js/Utils.js" defer></script>
-<script src="../js/Main.js" defer></script>
+<script src="../js/ErrorHandler.js" defer></script>
+<script src="../js/TextEditor.js" defer></script>
 </body>
 </html>

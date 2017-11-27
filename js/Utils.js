@@ -27,6 +27,9 @@ class Utils {
         } else {
             while (!element.hasClass(upperClass)) {
                 element = element.parent();
+                if (element.prop("tagName") === undefined) {
+                    return undefined;
+                }
             }
 
             return element.find('.' + lowerClass);
@@ -42,15 +45,6 @@ class Utils {
         return firstLeftOpenTag > firstLeftCloseTag || firstLeftCloseTag === -1 && firstLeftOpenTag !== -1;
     }
 
-    static isLeftCloseTagFirst(textPart, tagName) {
-        let tag = Utils.createTags(tagName);
-
-        let firstLeftOpenTag = textPart.lastIndexOf(tag.open);
-        let firstLeftCloseTag = textPart.lastIndexOf(tag.close);
-
-        return firstLeftOpenTag < firstLeftCloseTag || firstLeftOpenTag === -1;
-    }
-
     static isRightCloseTagFirst(textPart, tagName) {
         let tag = Utils.createTags(tagName);
 
@@ -58,15 +52,6 @@ class Utils {
         let firstRightCloseTag = textPart.indexOf(tag.close);
 
         return firstRightCloseTag < firstRightOpenTag || firstRightOpenTag === -1 && firstRightCloseTag !== -1;
-    }
-
-    static isRightOpenTagFirst(textPart, tagName) {
-        let tag = Utils.createTags(tagName);
-
-        let firstRightOpenTag = textPart.indexOf(tag.open);
-        let firstRightCloseTag = textPart.indexOf(tag.close);
-
-        return firstRightCloseTag > firstRightOpenTag || firstRightCloseTag === -1;
     }
 
     static getTextParts(elem, index) {
@@ -93,6 +78,14 @@ class Utils {
     static removeEmptyTags(text, tagName) {
         let tag = Utils.createTags(tagName);
         return text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
+        //TODO: fix
+        /*let replaced = new RegExp(tag.open + "<\/?[^>]+(>|$)" + tag.close, 'g');
+        let array = text.match(replaced);
+        let index = 0;
+        while (index < array.length) {
+            let deletedIndex = text.indexOf(replaced);
+
+        }*/
     }
 
     static getOpenTagCount(text, tagName) {
@@ -103,5 +96,42 @@ class Utils {
     static getCloseTagCount(text, tagName) {
         let tag = Utils.createTags(tagName);
         return Utils.getLengthOfArray(text.match(new RegExp(tag.close, 'g')));
+    }
+
+    static closeTag(text, tagName) {
+        let tag = Utils.createTags(tagName);
+        let openTagCount = Utils.getOpenTagCount(text, tagName);
+        let closeTagCount = Utils.getCloseTagCount(text, tagName);
+
+        if (openTagCount > closeTagCount) {
+            text = text + tag.close;
+        } else if (closeTagCount > openTagCount) {
+            text = tag.open + text;
+        }
+
+        return text;
+    }
+
+    static shieldedTag(part, text, tagName) {
+        let tag = Utils.createTags(tagName);
+        if (Utils.isLeftOpenTagFirst(part.left, tagName) && Utils.isRightCloseTagFirst(part.right, tagName)) {
+            text = tag.open + text + tag.close;
+        }
+
+        return text;
+    }
+
+    static closeShieldedTag(text, selectedText, tagName) {
+        let tag = Utils.createTags(tagName);
+        let openTagCount = Utils.getOpenTagCount(selectedText, tagName);
+        let closeTagCount = Utils.getCloseTagCount(selectedText, tagName);
+
+        if (openTagCount > closeTagCount) {
+            text = text + tag.open;
+        } else if (closeTagCount > openTagCount) {
+            text = tag.close + text;
+        }
+
+        return text;
     }
 }

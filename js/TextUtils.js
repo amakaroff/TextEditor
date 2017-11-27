@@ -6,10 +6,11 @@ class TextUtils {
         this._$text.focusout(() => {
             this._savedIndex = this.getSelectIndex();
             this.focusOut = true;
-        })
-            .focusin(() => {
-                this.focusOut = false;
-            });
+        }).focusin(() => {
+            this.focusOut = false;
+        });
+
+        this._tableClosed = ['</td>', '</td></tr>', '</td></tr></tbody></table>'];
     }
 
     getStartIndex(range, firstIndex) {
@@ -19,15 +20,22 @@ class TextUtils {
         let fullText = this._$text.html();
 
         if (text[text.length - 1] === '>') {
-            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[text.length - 1] === '>') {
+            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length)) {
                 text = text.substring(0, text.lastIndexOf('<'));
             }
         }
 
         if (text[0] === '<') {
             text = div.innerHTML;
-            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[0] === '<') {
+            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length)) {
                 text = text.substring(text.indexOf('>') + 1, text.length);
+            }
+        }
+
+        for (let value of this._tableClosed) {
+            if (text.endsWith(value)) {
+                text = text.substring(0, text.length - value.length);
+                break;
             }
         }
 
@@ -71,7 +79,7 @@ class TextUtils {
         return Utils.removeAllTags(partOfText).length;
     }
 
-    getSelectText(index) {
+    getSelectText(index = false) {
         let selectIndex = index ? index : this.getSelectIndex();
         return this._$text.html().substring(selectIndex.start, selectIndex.end);
     }
