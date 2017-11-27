@@ -20,14 +20,16 @@ class TextUtils {
         let fullText = this._$text.html();
 
         if (text[text.length - 1] === '>') {
-            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length)) {
+            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[text.length - 1] === '>') {
                 text = text.substring(0, text.lastIndexOf('<'));
             }
         }
 
         if (text[0] === '<') {
-            text = $storage.html();
-            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length)) {
+            if (text == '') {
+                text = $storage.html();
+            }
+            while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[0] === '<') {
                 text = text.substring(text.indexOf('>') + 1, text.length);
             }
         }
@@ -53,11 +55,7 @@ class TextUtils {
             preSelectionRange.selectNodeContents(this._$text.get()[0]);
             preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
-            console.log(preSelectionRange.toString());
-            console.log(range.toString());
-
             let start = this.getStartIndex(preSelectionRange, 0);
-
             return {
                 start: start,
                 end: start + this.getStartIndex(range, start)
@@ -88,10 +86,6 @@ class TextUtils {
     }
 
     insertToSelected(data, removedTag) {
-        if (data instanceof HTMLElement) {
-            data = data.outerHTML;
-        }
-
         let selectIndex = this.getSelectIndex();
         let text = this._$text.html();
         let tempText = text.substring(0, selectIndex.start) + data;

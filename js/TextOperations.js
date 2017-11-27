@@ -32,7 +32,7 @@ class OperationUtils {
         this[action]();
     }
 
-    paste(isAsText) {
+    paste(isAsText = false) {
         if (this._buffer !== '') {
             let data = isAsText ? Utils.removeAllTags(this._buffer) : this._buffer;
             let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());

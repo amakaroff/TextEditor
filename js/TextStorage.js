@@ -114,9 +114,10 @@ class TextStorage {
 
     _setItem(key, value) {
         try {
-            localStorage.setItem(key, value)
+            localStorage.setItem(key, value);
         } catch (error) {
-            this._errorHandler.send('Local Storage is overloaded! Please reduce size.')
+            this._errorHandler.send('Local Storage is overloaded! Please reduce size.');
+            this._refreshStorage();
         }
     }
 }

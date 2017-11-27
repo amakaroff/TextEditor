@@ -28,7 +28,7 @@ class TextEditor {
         this._editCommandMap.set('Undo', () => this.storage.undoOperation());
         this._editCommandMap.set('Redo', () => this.storage.redoOperation());
         this._editCommandMap.set('Copy', () => this.operationUtils.copy());
-        this._editCommandMap.set('Paste', () => this.operationUtils.paste(false));
+        this._editCommandMap.set('Paste', () => this.operationUtils.paste());
         this._editCommandMap.set('Cut', () => this.operationUtils.cut());
         this._editCommandMap.set('Paste as text', () => this.operationUtils.paste(true));
 
@@ -126,7 +126,7 @@ class TextEditor {
     let textEditor = new TextEditor();
     textEditor.init();
     textEditor.addButton('gomer', 'https://www.sunhome.ru/i/wallpapers/31/gomer-simpson-kartinka.orig.jpg', (editor) => {
-        alert(1);
+        alert('Beer... arrggghhhh');
     });
 
     textEditor.addButton('lion', 'https://kartinki.detki.today/wp-content/uploads/2017/07/kartinka-dlya-detey-lev-1150x863.jpg', (editor) => {
