@@ -65,18 +65,19 @@ class OperationUtils {
     }
 
     cut() {
-        this._buffer = this._textUtils.getSelectText();
-        let removedText = '';
-        let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+        let selectedText = this._textUtils.getSelectText();
+        if (selectedText !== '') {
+            this._buffer = selectedText;
+            let removedText = '';
+            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
 
-        this._tagsArray.forEach((value) => {
-            this._buffer = Utils.shieldedTag(part, this._buffer, value);
-            removedText = Utils.closeShieldedTag(removedText, this._buffer, value);
-        });
+            this._tagsArray.forEach((value) => {
+                this._buffer = Utils.shieldedTag(part, this._buffer, value);
+                removedText = Utils.closeShieldedTag(removedText, this._buffer, value);
+            });
 
-        console.log(removedText);
-
-        this._textUtils.insertToSelected(removedText, this._tagsArray);
+            this._textUtils.insertToSelected(removedText, this._tagsArray);
+        }
     }
 
     openImage() {
