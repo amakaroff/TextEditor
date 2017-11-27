@@ -28,7 +28,6 @@ class OperationUtils {
             this._currentDiv = element;
         });
     }
-
     doAction(action) {
         this[action]();
     }
@@ -56,13 +55,13 @@ class OperationUtils {
     copy() {
         let data = this._textUtils.getSelectText();
         if (data !== '') {
+            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+            this._tagsArray.forEach((value) => {
+                data = Utils.shieldedTag(part, data, value);
+            });
+
             this._buffer = data;
         }
-
-        let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
-        this._tagsArray.forEach((value) => {
-            data = Utils.shieldedTag(part, data, value);
-        });
     }
 
     cut() {
@@ -74,6 +73,8 @@ class OperationUtils {
             this._buffer = Utils.shieldedTag(part, this._buffer, value);
             removedText = Utils.closeShieldedTag(removedText, this._buffer, value);
         });
+
+        console.log(removedText);
 
         this._textUtils.insertToSelected(removedText, this._tagsArray);
     }

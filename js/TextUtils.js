@@ -53,6 +53,9 @@ class TextUtils {
             preSelectionRange.selectNodeContents(this._$text.get()[0]);
             preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
+            console.log(preSelectionRange.toString());
+            console.log(range.toString());
+
             let start = this.getStartIndex(preSelectionRange, 0);
 
             return {
@@ -79,17 +82,17 @@ class TextUtils {
         return Utils.removeAllTags(partOfText).length;
     }
 
-    getSelectText(index = false) {
+    getSelectText(index) {
         let selectIndex = index ? index : this.getSelectIndex();
         return this._$text.html().substring(selectIndex.start, selectIndex.end);
     }
 
-    insertToSelected(data, removedTag, selected) {
+    insertToSelected(data, removedTag) {
         if (data instanceof HTMLElement) {
             data = data.outerHTML;
         }
 
-        let selectIndex = selected ? selected : this.getSelectIndex();
+        let selectIndex = this.getSelectIndex();
         let text = this._$text.html();
         let tempText = text.substring(0, selectIndex.start) + data;
         text = tempText + text.substring(selectIndex.end, text.length);
