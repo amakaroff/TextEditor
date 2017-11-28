@@ -15,11 +15,13 @@ class OperationUtils {
         }, errorHandler);
 
         this._$text.on('copy paste cut', (event) => {
+            //warning!
+            //console.log(event.originalEvent.clipboardData.getData('Text'));
             this.doAction(event.type);
             event.preventDefault();
         }).click((event) => {
             let element = $(event.target);
-            if (!element.hasAttribute('contenteditable')) {
+            if (!element.is('[contenteditable]')) {
                 while (element.prop("tagName") !== 'DIV') {
                     element = element.parent();
                 }
