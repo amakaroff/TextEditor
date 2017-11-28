@@ -4,7 +4,7 @@ class TextStorage {
         this._textUtils = textUtils;
         this._errorHandler = errorHandler;
         this._changeSave = _.debounce(this._saveText, time);
-        this._$text = Utils.getJQueryDOMElement(element);
+        this._$text = Utils.boxing(element);
 
         let sizeStorage = localStorage.getItem('size');
         let minIndex = localStorage.getItem('min');

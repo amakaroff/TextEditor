@@ -13,7 +13,7 @@ class FileHandler {
         }, errorHandler);
 
         this._errorHandler = errorHandler;
-        this._$text = Utils.getJQueryDOMElement(element);
+        this._$text = Utils.boxing(element);
 
         //I know that is bad solution, but this is the only thing which is working
         this._innerStyle = `<style>.table-cell{background-color: cornflowerblue; border: 1px solid black;
@@ -43,10 +43,9 @@ class FileHandler {
         let text = this._$text.html();
         let objectToJson = {data: text};
         let $link = $('<a/>');
-        let file = new File([JSON.stringify(objectToJson)], {'type': 'json'});
-        $link.attr('href', window.URL.createObjectURL(file));
+        $link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(objectToJson)));
         $link.attr('download', 'text.json');
-        $link.get()[0].click();
+        Utils.unboxing($link).click();
     }
 
     importText() {

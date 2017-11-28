@@ -1,7 +1,7 @@
 class TextUtils {
 
     constructor(element) {
-        this._$text = Utils.getJQueryDOMElement(element);
+        this._$text = Utils.boxing(element);
 
         this._$text.focusout(() => {
             this._savedIndex = this.getSelectIndex();
@@ -52,7 +52,7 @@ class TextUtils {
         if (window.getSelection().rangeCount > 0) {
             let range = window.getSelection().getRangeAt(0);
             let preSelectionRange = range.cloneRange();
-            preSelectionRange.selectNodeContents(this._$text.get()[0]);
+            preSelectionRange.selectNodeContents(Utils.unboxing(this._$text));
             preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
             let start = this.getStartIndex(preSelectionRange, 0);
@@ -105,7 +105,7 @@ class TextUtils {
     }
 
     setCursorPosition(cursorPosition) {
-        let element = this._$text.get()[0];
+        let element = Utils.unboxing(this._$text);
         let charIndex = 0, range = document.createRange();
         range.setStart(element, 0);
         range.collapse(true);

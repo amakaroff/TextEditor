@@ -8,7 +8,7 @@ class Utils {
         }
     }
 
-    static getJQueryDOMElement(element) {
+    static boxing(element) {
         if (element instanceof HTMLElement) {
             return $(element);
         }
@@ -16,9 +16,17 @@ class Utils {
         return element;
     }
 
+    static unboxing(element) {
+        let node = element.get();
+        if (node.length  === 1) {
+            return node[0];
+        } else {
+            return null;
+        }
+    }
+
     static getLengthOfArray(array) {
         return array ? array.length : 0;
-
     }
 
     static getNodeByClass(element, upperClass, lowerClass) {
@@ -77,15 +85,23 @@ class Utils {
 
     static removeEmptyTags(text, tagName) {
         let tag = Utils.createTags(tagName);
-        return text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
+        text = text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
         //TODO: fix
-        /*let replaced = new RegExp(tag.open + "<\/?[^>]+(>|$)" + tag.close, 'g');
+        let replaced = new RegExp(`${tag.close}<\/?[^>]+(>|$)${tag.open}`, 'g');
         let array = text.match(replaced);
-        let index = 0;
-        while (index < array.length) {
-            let deletedIndex = text.indexOf(replaced);
+        if (array !== null) {
+            let index = 0;
+            for (let value of array) {
+                index = text.indexOf(value, index);
+                let line = text.substr(index + tag.open.length + 1, value.length - tag.close.length - tag.open.length);
+                text = text.substring(0, index) + line + text.substring(index + value.length, text.length);
+                console.log(text + " result");
+            }
+        }
 
-        }*/
+        console.log(text);
+
+        return text;
     }
 
     static getOpenTagCount(text, tagName) {

@@ -1,7 +1,7 @@
 class OperationUtils {
 
     constructor(element, textUtils, errorHandler) {
-        this._$text = Utils.getJQueryDOMElement(element);
+        this._$text = Utils.boxing(element);
         this._textUtils = textUtils;
         this._buffer = '';
 
@@ -28,6 +28,7 @@ class OperationUtils {
             this._currentDiv = element;
         });
     }
+
     doAction(action) {
         this[action]();
     }
@@ -85,11 +86,11 @@ class OperationUtils {
     }
 
     doFormat(format) {
-        if (this._currentDiv !== undefined && document.contains(this._currentDiv.get()[0])) {
+        if (this._currentDiv !== undefined && document.contains(Utils.unboxing(this._currentDiv))) {
             this._currentDiv.removeAttr('class');
             this._currentDiv.attr('class', format);
         } else {
-            this._$text.children().each((index, value) =>  {
+            this._$text.children().each((index, value) => {
                 value = $(value);
                 value.removeAttr('class');
                 value.attr('class', format);
@@ -98,16 +99,18 @@ class OperationUtils {
     }
 
     createTable(column, row) {
-        let table = '<table class="generate-table">';
-        for (let i = 0; i < row; i++) {
-            table += '<tr>';
-            for (let j = 0; j < column; j++) {
-                table += '<td class="table-cell"></td>';
+        if (column !== 0 || row !== 0) {
+            let table = '<table class="generate-table">';
+            for (let i = 0; i < row; i++) {
+                table += '<tr>';
+                for (let j = 0; j < column; j++) {
+                    table += '<td class="table-cell"></td>';
+                }
+                table += '</tr>';
             }
-            table += '</tr>';
-        }
-        table += '</table>';
+            table += '</table>';
 
-        this._textUtils.insertToSelected(table);
+            this._textUtils.insertToSelected(table);
+        }
     }
 }

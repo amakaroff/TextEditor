@@ -1,7 +1,7 @@
 class StyleHandler {
 
     constructor(element, textUtils) {
-        this._$text = Utils.getJQueryDOMElement(element);
+        this._$text = Utils.boxing(element);
         this._textUtils = textUtils;
         this._tagMap = new Map();
         this._tagMap.set('bold', 'strong');
