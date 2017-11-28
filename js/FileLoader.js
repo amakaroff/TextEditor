@@ -22,7 +22,7 @@ class FileLoader {
         let $input = $('<input/>');
         $input.attr('type', 'file');
         $input.attr('accept', type);
-        $input.get()[0].click();
+        Utils.unboxing($input).click();
         $input.on('change', (event) => {
             let files = event.target.files;
             if (files.length === 1) {

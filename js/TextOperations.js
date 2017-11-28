@@ -101,13 +101,7 @@ class OperationUtils {
     createTable(column, row) {
         if (column !== 0 || row !== 0) {
             let table = '<table class="generate-table">';
-            for (let i = 0; i < row; i++) {
-                table += '<tr>';
-                for (let j = 0; j < column; j++) {
-                    table += '<td class="table-cell"></td>';
-                }
-                table += '</tr>';
-            }
+            table += `<tr>${'<td class="table-cell"></td>'.repeat(column)}</tr>`.repeat(row);
             table += '</table>';
 
             this._textUtils.insertToSelected(table);

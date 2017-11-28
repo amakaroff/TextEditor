@@ -85,21 +85,23 @@ class Utils {
 
     static removeEmptyTags(text, tagName) {
         let tag = Utils.createTags(tagName);
-        text = text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
-        //TODO: fix
+        return text.replace(new RegExp(tag.open + tag.close + '|' + tag.close + tag.open, 'g'), '');
+    }
+
+    static removeFakeEmptyTag(text, tagName) {
+        let tag = Utils.createTags(tagName);
         let replaced = new RegExp(`${tag.close}<\/?[^>]+(>|$)${tag.open}`, 'g');
         let array = text.match(replaced);
         if (array !== null) {
             let index = 0;
             for (let value of array) {
                 index = text.indexOf(value, index);
-                let line = text.substr(index + tag.open.length + 1, value.length - tag.close.length - tag.open.length);
+                let start = index + tag.open.length + 1;
+                let end = value.length - tag.close.length - tag.open.length;
+                let line = text.substr(start, end);
                 text = text.substring(0, index) + line + text.substring(index + value.length, text.length);
-                console.log(text + " result");
             }
         }
-
-        console.log(text);
 
         return text;
     }

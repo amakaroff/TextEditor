@@ -26,7 +26,7 @@ class StyleHandler {
         let tag = Utils.createTags(tagName);
 
         let text = this._$text.html();
-        let selectedText = this._textUtils.getSelectText();
+        let selectedText = Utils.removeFakeEmptyTag(this._textUtils.getSelectText(), tagName);
         let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
 
         let openTagCount = Utils.getOpenTagCount(selectedText, tagName);

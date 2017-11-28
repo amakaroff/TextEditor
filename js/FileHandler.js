@@ -27,16 +27,15 @@ class FileHandler {
 
     print() {
         let text = this._$text.html();
-        const first = 0;
-
-        let $IFrame = $('<iframe id="frame" style="display: none">');
+        let $IFrame = $('<iframe style="display: none">');
+        let iFrame = Utils.unboxing($IFrame);
         this._$text.append($IFrame);
-        let newDocument = $IFrame[first].contentDocument || $IFrame[first].contentWindow.document;
-        let newWindow = $IFrame[first].contentWindow || $IFrame[first];
-        newDocument.getElementsByTagName('head')[first].innerHTML = this._innerStyle;
-        newDocument.getElementsByTagName('body')[first].innerHTML = text;
+        let newDocument = iFrame.contentDocument || iFrame.contentWindow.document;
+        let newWindow = iFrame.contentWindow || iFrame;
+        $('head', newDocument).html(this._innerStyle);
+        $('body', newDocument).html(text);
         newWindow.print();
-        $('#frame').remove();
+        $IFrame.remove();
     }
 
     exportText() {

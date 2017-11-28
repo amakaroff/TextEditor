@@ -106,7 +106,8 @@ class TextUtils {
 
     setCursorPosition(cursorPosition) {
         let element = Utils.unboxing(this._$text);
-        let charIndex = 0, range = document.createRange();
+        let charIndex = 0;
+        let range = document.createRange();
         range.setStart(element, 0);
         range.collapse(true);
         let nodeStack = [element];
