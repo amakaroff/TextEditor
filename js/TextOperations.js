@@ -19,7 +19,7 @@ class OperationUtils {
             event.preventDefault();
         }).click((event) => {
             let element = $(event.target);
-            if (!element.hasClass('text')) {
+            if (!element.hasAttribute('contenteditable')) {
                 while (element.prop("tagName") !== 'DIV') {
                     element = element.parent();
                 }
