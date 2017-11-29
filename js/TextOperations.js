@@ -3,7 +3,7 @@ class OperationUtils {
     constructor(element, textUtils, errorHandler) {
         this._$text = Utils.boxing(element);
         this._textUtils = textUtils;
-        this._buffer = '';
+        this._asText = false;
 
         this._tagsArray = ['strong', 'em', 'u'];
 
@@ -15,9 +15,8 @@ class OperationUtils {
         }, errorHandler);
 
         this._$text.on('copy paste cut', (event) => {
-            //warning!
-            //console.log(event.originalEvent.clipboardData.getData('Text'));
-            this.doAction(event.type);
+            console.log(event.originalEvent.clipboardData.getData('Text'));
+            this.doAction(event.type, event.originalEvent.clipboardData);
             event.preventDefault();
         }).click((event) => {
             let element = $(event.target);
@@ -31,13 +30,19 @@ class OperationUtils {
         });
     }
 
-    doAction(action) {
-        this[action]();
+    setAsText() {
+        this._asText = true;
     }
 
-    paste(isAsText = false) {
-        if (this._buffer !== '') {
-            let data = isAsText ? Utils.removeAllTags(this._buffer) : this._buffer;
+    doAction(action, clipboardData) {
+        this[action](clipboardData);
+    }
+
+    paste(clipboardData) {
+        let buf = clipboardData.getData('Text');
+        if (buf !== '') {
+            let data = this._asText ? Utils.removeAllTags(buf) : buf;
+            this._asText = false;
             let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
             let selectedText = this._textUtils.getSelectText();
 
@@ -55,7 +60,7 @@ class OperationUtils {
         }
     }
 
-    copy() {
+    copy(clipboardData) {
         let data = this._textUtils.getSelectText();
         if (data !== '') {
             let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
@@ -63,22 +68,23 @@ class OperationUtils {
                 data = Utils.shieldedTag(part, data, value);
             });
 
-            this._buffer = data;
+            clipboardData.setData('Text', data);
         }
     }
 
-    cut() {
+    cut(clipboardData) {
         let selectedText = this._textUtils.getSelectText();
         if (selectedText !== '') {
-            this._buffer = selectedText;
+            let buf = selectedText;
             let removedText = '';
             let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
 
             this._tagsArray.forEach((value) => {
-                this._buffer = Utils.shieldedTag(part, this._buffer, value);
-                removedText = Utils.closeShieldedTag(removedText, this._buffer, value);
+                buf = Utils.shieldedTag(part, buf, value);
+                removedText = Utils.closeShieldedTag(removedText, buf, value);
             });
 
+            clipboardData.setData('Text', buf);
             this._textUtils.insertToSelected(removedText, this._tagsArray);
         }
     }

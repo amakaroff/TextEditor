@@ -26,7 +26,7 @@ class TextUtils {
         }
 
         if (text[0] === '<') {
-            if (text == '') {
+            if (text === '') {
                 text = $storage.html();
             }
             while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[0] === '<') {
@@ -68,6 +68,12 @@ class TextUtils {
         }
     }
 
+    selectText() {
+        let selectIndex = this.getSelectIndex();
+        let selectedText = Utils.removeAllTags(this.getSelectText());
+        this.setCursorPosition(selectIndex.start, selectIndex.start + selectedText.length);
+    }
+
     getCursorPosition(text) {
         let partOfText;
         if (text === undefined) {
@@ -104,7 +110,7 @@ class TextUtils {
         this.setCursorPosition(cursorPosition);
     }
 
-    setCursorPosition(cursorPosition) {
+    setCursorPosition(cursorStart, cursorEnd = cursorStart) {
         let element = Utils.unboxing(this._$text);
         let charIndex = 0;
         let range = document.createRange();
@@ -118,12 +124,12 @@ class TextUtils {
         while (!stop && (node = nodeStack.pop())) {
             if (node.nodeType === 3) {
                 let nextCharIndex = charIndex + node.length;
-                if (!foundStart && cursorPosition >= charIndex && cursorPosition <= nextCharIndex) {
-                    range.setStart(node, cursorPosition - charIndex);
+                if (!foundStart && cursorStart >= charIndex && cursorStart <= nextCharIndex) {
+                    range.setStart(node, cursorStart - charIndex);
                     foundStart = true;
                 }
-                if (foundStart && cursorPosition >= charIndex && cursorPosition <= nextCharIndex) {
-                    range.setEnd(node, cursorPosition - charIndex);
+                if (foundStart && cursorEnd >= charIndex && cursorEnd <= nextCharIndex) {
+                    range.setEnd(node, cursorEnd - charIndex);
                     stop = true;
                 }
                 charIndex = nextCharIndex;
@@ -134,6 +140,7 @@ class TextUtils {
                 }
             }
         }
+
 
         let selection = window.getSelection();
         selection.removeAllRanges();
