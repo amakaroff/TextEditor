@@ -15,7 +15,7 @@ class OperationUtils {
         }, errorHandler);
 
         this._$text.on('copy paste cut', (event) => {
-            console.log(event.originalEvent.clipboardData.getData('Text'));
+            console.log(event);
             this.doAction(event.type, event.originalEvent.clipboardData);
             event.preventDefault();
         }).click((event) => {

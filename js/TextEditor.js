@@ -27,20 +27,15 @@ class TextEditor {
         this._editCommandMap = new Map();
         this._editCommandMap.set('Undo', () => this.storage.undoOperation());
         this._editCommandMap.set('Redo', () => this.storage.redoOperation());
-        this._editCommandMap.set('Copy', () =>  {
-            this._textUtils.selectText();
-            document.execCommand('copy');
-        });
+        this._editCommandMap.set('Copy', () => document.execCommand('copy'));
         this._editCommandMap.set('Paste', () => {
-            this._textUtils.selectText();
-            document.execCommand('paste');
+            console.log(document.designMode);
+            document.designMode = "on";
+            document.execCommand('paste', true, null);
+            document.designMode = "off";
         });
-        this._editCommandMap.set('Cut', () =>  {
-            this._textUtils.selectText();
-            document.execCommand('cut');
-        });
+        this._editCommandMap.set('Cut', () => document.execCommand('cut'));
         this._editCommandMap.set('Paste as text', () => {
-            this._textUtils.selectText();
             this.operationUtils.setAsText();
             document.execCommand('paste');
         });
@@ -139,7 +134,7 @@ class TextEditor {
     let textEditor = new TextEditor();
     textEditor.init();
     textEditor.addButton('gomer', 'https://www.sunhome.ru/i/wallpapers/31/gomer-simpson-kartinka.orig.jpg', (editor) => {
-        document.execCommand('copy');
+        document.execCommand('paste');
         //alert('Beer... arrggghhhh');
     });
 

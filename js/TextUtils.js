@@ -4,10 +4,7 @@ class TextUtils {
         this._$text = Utils.boxing(element);
 
         this._$text.focusout(() => {
-            this._savedIndex = this.getSelectIndex();
-            this.focusOut = true;
-        }).focusin(() => {
-            this.focusOut = false;
+            this._$text.focus();
         });
 
         this._tableClosed = ['</td>', '</td></tr>', '</td></tr></tbody></table>'];
@@ -45,10 +42,6 @@ class TextUtils {
     }
 
     getSelectIndex() {
-        if (this.focusOut) {
-            return this._savedIndex;
-        }
-
         if (window.getSelection().rangeCount > 0) {
             let range = window.getSelection().getRangeAt(0);
             let preSelectionRange = range.cloneRange();
@@ -66,12 +59,6 @@ class TextUtils {
                 end: 0
             };
         }
-    }
-
-    selectText() {
-        let selectIndex = this.getSelectIndex();
-        let selectedText = Utils.removeAllTags(this.getSelectText());
-        this.setCursorPosition(selectIndex.start, selectIndex.start + selectedText.length);
     }
 
     getCursorPosition(text) {
@@ -110,7 +97,7 @@ class TextUtils {
         this.setCursorPosition(cursorPosition);
     }
 
-    setCursorPosition(cursorStart, cursorEnd = cursorStart) {
+    setCursorPosition(cursorStart) {
         let element = Utils.unboxing(this._$text);
         let charIndex = 0;
         let range = document.createRange();
@@ -128,8 +115,8 @@ class TextUtils {
                     range.setStart(node, cursorStart - charIndex);
                     foundStart = true;
                 }
-                if (foundStart && cursorEnd >= charIndex && cursorEnd <= nextCharIndex) {
-                    range.setEnd(node, cursorEnd - charIndex);
+                if (foundStart && cursorStart >= charIndex && cursorStart <= nextCharIndex) {
+                    range.setEnd(node, cursorStart - charIndex);
                     stop = true;
                 }
                 charIndex = nextCharIndex;
@@ -140,7 +127,6 @@ class TextUtils {
                 }
             }
         }
-
 
         let selection = window.getSelection();
         selection.removeAllRanges();
