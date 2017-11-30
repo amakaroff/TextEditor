@@ -5,7 +5,7 @@ class FileHandler {
             try {
                 let data = JSON.parse(result);
                 if (data.data) {
-                    this._$text.html(decodeURI(data.data));
+                    this.$text.html(decodeURI(data.data));
                 }
             } catch (error) {
                 this._errorHandler.send('File can\'t be loaded!');
@@ -13,7 +13,7 @@ class FileHandler {
         }, errorHandler);
 
         this._errorHandler = errorHandler;
-        this._$text = Utils.boxing(element);
+        this.$text = Utils.boxing(element);
 
         //I know that is bad solution, but this is the only thing which is working
         this._innerStyle = `<style>.table-cell{background-color: cornflowerblue; border: 1px solid black;
@@ -26,10 +26,10 @@ class FileHandler {
     }
 
     print() {
-        let text = this._$text.html();
+        let text = this.$text.html();
         let $IFrame = $('<iframe style="display: none">');
         let iFrame = Utils.unboxing($IFrame);
-        this._$text.append($IFrame);
+        this.$text.append($IFrame);
         let newDocument = iFrame.contentDocument || iFrame.contentWindow.document;
         let newWindow = iFrame.contentWindow || iFrame;
         $('head', newDocument).html(this._innerStyle);
@@ -39,7 +39,7 @@ class FileHandler {
     }
 
     exportText() {
-        let text = this._$text.html();
+        let text = this.$text.html();
         let objectToJson = {data: text};
         let $link = $('<a/>');
         $link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(objectToJson)));

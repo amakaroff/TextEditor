@@ -10,14 +10,14 @@ class TextEditor {
         this._$column = $('#column');
         this._$row = $('#row');
 
-        this._$text = $('.text');
+        this.$text = $('.text');
 
         this._errorHandler = new ErrorHandler(this._$error);
-        this._textUtils = new TextUtils(this._$text);
-        this.fileUtils = new FileHandler(this._$text, this._errorHandler);
-        this.storage = new TextStorage(this._$text, this._textUtils, this._errorHandler, 500);
-        this.operationUtils = new OperationUtils(this._$text, this._textUtils, this._errorHandler);
-        this.styleUtils = new StyleHandler(this._$text, this._textUtils);
+        this._textUtils = new TextUtils(this.$text);
+        this.fileUtils = new FileHandler(this.$text, this._errorHandler);
+        this.storage = new TextStorage(this.$text, this._textUtils, this._errorHandler, 500);
+        this.operationUtils = new OperationUtils(this.$text, this._textUtils, this._errorHandler);
+        this.styleUtils = new StyleHandler(this.$text, this._textUtils);
 
         this._fileCommandMap = new Map();
         this._fileCommandMap.set('Print', () => this.fileUtils.print());
@@ -28,17 +28,9 @@ class TextEditor {
         this._editCommandMap.set('Undo', () => this.storage.undoOperation());
         this._editCommandMap.set('Redo', () => this.storage.redoOperation());
         this._editCommandMap.set('Copy', () => document.execCommand('copy'));
-        this._editCommandMap.set('Paste', () => {
-            console.log(document.designMode);
-            document.designMode = "on";
-            document.execCommand('paste', true, null);
-            document.designMode = "off";
-        });
+        this._editCommandMap.set('Paste', () => this.operationUtils.paste());
         this._editCommandMap.set('Cut', () => document.execCommand('cut'));
-        this._editCommandMap.set('Paste as text', () => {
-            this.operationUtils.setAsText();
-            document.execCommand('paste');
-        });
+        this._editCommandMap.set('Paste as text', () => this.operationUtils.paste(true));
 
         this._controlCommandMap = new Map();
         this._controlCommandMap.set('undo', () => this.storage.undoOperation());
@@ -134,7 +126,6 @@ class TextEditor {
     let textEditor = new TextEditor();
     textEditor.init();
     textEditor.addButton('gomer', 'https://www.sunhome.ru/i/wallpapers/31/gomer-simpson-kartinka.orig.jpg', (editor) => {
-        document.execCommand('paste');
         //alert('Beer... arrggghhhh');
     });
 

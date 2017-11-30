@@ -1,7 +1,7 @@
 class StyleHandler {
 
     constructor(element, textUtils) {
-        this._$text = Utils.boxing(element);
+        this.$text = Utils.boxing(element);
         this._textUtils = textUtils;
         this._tagMap = new Map();
         this._tagMap.set('bold', 'strong');
@@ -25,9 +25,9 @@ class StyleHandler {
         let tagName = this._tagMap.get(action);
         let tag = Utils.createTags(tagName);
 
-        let text = this._$text.html();
+        let text = this.$text.html();
         let selectedText = Utils.removeFakeEmptyTag(this._textUtils.getSelectText(), tagName);
-        let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+        let part = Utils.getTextParts(this.$text, this._textUtils.getSelectIndex());
 
         let openTagCount = Utils.getOpenTagCount(selectedText, tagName);
         let closeTagCount = Utils.getCloseTagCount(selectedText, tagName);

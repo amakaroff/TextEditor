@@ -1,9 +1,9 @@
 class OperationUtils {
 
     constructor(element, textUtils, errorHandler) {
-        this._$text = Utils.boxing(element);
+        this.$text = Utils.boxing(element);
         this._textUtils = textUtils;
-        this._asText = false;
+        this._localBuffer = '';
 
         this._tagsArray = ['strong', 'em', 'u'];
 
@@ -14,8 +14,7 @@ class OperationUtils {
             this._textUtils.insertToSelected(image.outerHTML);
         }, errorHandler);
 
-        this._$text.on('copy paste cut', (event) => {
-            console.log(event);
+        this.$text.on('copy paste cut', (event) => {
             this.doAction(event.type, event.originalEvent.clipboardData);
             event.preventDefault();
         }).click((event) => {
@@ -30,45 +29,46 @@ class OperationUtils {
         });
     }
 
-    setAsText() {
-        this._asText = true;
-    }
-
     doAction(action, clipboardData) {
         this[action](clipboardData);
     }
 
     paste(clipboardData) {
-        let buf = clipboardData.getData('Text');
+        let buf = '';
+        if (clipboardData === undefined || typeof(clipboardData) === "boolean") {
+            buf = clipboardData ? Utils.removeAllTags(this._localBuffer) : this._localBuffer;
+        } else if (clipboardData instanceof ClipboardData) {
+            buf = clipboardData.getData('Text');
+        }
+
         if (buf !== '') {
-            let data = this._asText ? Utils.removeAllTags(buf) : buf;
-            this._asText = false;
-            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+            let part = Utils.getTextParts(this.$text, this._textUtils.getSelectIndex());
             let selectedText = this._textUtils.getSelectText();
 
             this._tagsArray.forEach((value) => {
                 let tag = Utils.createTags(value);
                 if (Utils.isLeftOpenTagFirst(part.left, value) && Utils.isRightCloseTagFirst(part.right, value)) {
-                    data = tag.close + data + tag.open;
+                    buf = tag.close + buf + tag.open;
                 }
 
-                data = Utils.closeTag(data, value);
-                data = Utils.closeShieldedTag(data, selectedText, value);
+                buf = Utils.closeTag(buf, value);
+                buf = Utils.closeShieldedTag(buf, selectedText, value);
             });
 
-            this._textUtils.insertToSelected(data, this._tagsArray);
+            this._textUtils.insertToSelected(buf, this._tagsArray);
         }
     }
 
     copy(clipboardData) {
         let data = this._textUtils.getSelectText();
         if (data !== '') {
-            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+            let part = Utils.getTextParts(this.$text, this._textUtils.getSelectIndex());
             this._tagsArray.forEach((value) => {
                 data = Utils.shieldedTag(part, data, value);
             });
 
             clipboardData.setData('Text', data);
+            this._localBuffer = data;
         }
     }
 
@@ -77,7 +77,7 @@ class OperationUtils {
         if (selectedText !== '') {
             let buf = selectedText;
             let removedText = '';
-            let part = Utils.getTextParts(this._$text, this._textUtils.getSelectIndex());
+            let part = Utils.getTextParts(this.$text, this._textUtils.getSelectIndex());
 
             this._tagsArray.forEach((value) => {
                 buf = Utils.shieldedTag(part, buf, value);
@@ -85,6 +85,7 @@ class OperationUtils {
             });
 
             clipboardData.setData('Text', buf);
+            this._localBuffer = buf;
             this._textUtils.insertToSelected(removedText, this._tagsArray);
         }
     }
@@ -98,7 +99,7 @@ class OperationUtils {
             this._currentDiv.removeAttr('class');
             this._currentDiv.attr('class', format);
         } else {
-            this._$text.children().each((index, value) => {
+            this.$text.children().each((index, value) => {
                 value = $(value);
                 value.removeAttr('class');
                 value.attr('class', format);
@@ -107,7 +108,7 @@ class OperationUtils {
     }
 
     createTable(column, row) {
-        if (column !== 0 || row !== 0) {
+        if (column !== 0 && row !== 0) {
             let table = '<table class="generate-table">';
             table += `<tr>${'<td class="table-cell"></td>'.repeat(column)}</tr>`.repeat(row);
             table += '</table>';

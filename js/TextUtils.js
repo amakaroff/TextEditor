@@ -1,20 +1,19 @@
 class TextUtils {
 
     constructor(element) {
-        this._$text = Utils.boxing(element);
+        this.$text = Utils.boxing(element);
 
-        this._$text.focusout(() => {
-            this._$text.focus();
+        this.$text.focusout((event) => {
+            console.log(event);
+            this.$text.focus();
         });
-
-        this._tableClosed = ['</td>', '</td></tr>', '</td></tr></tbody></table>'];
     }
 
     getStartIndex(range, firstIndex) {
         let $storage = $('<div>');
         $storage.append(range.cloneContents().cloneNode(true));
         let text = $storage.html();
-        let fullText = this._$text.html();
+        let fullText = this.$text.html();
 
         if (text[text.length - 1] === '>') {
             while (text !== '' && text !== fullText.substring(firstIndex, firstIndex + text.length) && text[text.length - 1] === '>') {
@@ -31,11 +30,8 @@ class TextUtils {
             }
         }
 
-        for (let value of this._tableClosed) {
-            if (text.endsWith(value)) {
-                text = text.substring(0, text.length - value.length);
-                break;
-            }
+        while (text.endsWith('</td>') || text.endsWith('</tr>') || text.endsWith('</table>') || text.endsWith('</tbody>')) {
+            text = text.substring(0, text.lastIndexOf('<'));
         }
 
         return text.length;
@@ -45,7 +41,7 @@ class TextUtils {
         if (window.getSelection().rangeCount > 0) {
             let range = window.getSelection().getRangeAt(0);
             let preSelectionRange = range.cloneRange();
-            preSelectionRange.selectNodeContents(Utils.unboxing(this._$text));
+            preSelectionRange.selectNodeContents(Utils.unboxing(this.$text));
             preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
             let start = this.getStartIndex(preSelectionRange, 0);
@@ -65,7 +61,7 @@ class TextUtils {
         let partOfText;
         if (text === undefined) {
             let index = this.getSelectIndex();
-            partOfText = this._$text.html().substring(0, index.end);
+            partOfText = this.$text.html().substring(0, index.end);
         } else {
             partOfText = text;
         }
@@ -75,12 +71,12 @@ class TextUtils {
 
     getSelectText(index) {
         let selectIndex = index ? index : this.getSelectIndex();
-        return this._$text.html().substring(selectIndex.start, selectIndex.end);
+        return this.$text.html().substring(selectIndex.start, selectIndex.end);
     }
 
     insertToSelected(data, removedTag) {
         let selectIndex = this.getSelectIndex();
-        let text = this._$text.html();
+        let text = this.$text.html();
         let tempText = text.substring(0, selectIndex.start) + data;
         text = tempText + text.substring(selectIndex.end, text.length);
         let cursorPosition = this.getCursorPosition(tempText);
@@ -93,12 +89,12 @@ class TextUtils {
                 text = Utils.removeEmptyTags(text, removedTag);
             }
         }
-        this._$text.html(text);
+        this.$text.html(text);
         this.setCursorPosition(cursorPosition);
     }
 
     setCursorPosition(cursorStart) {
-        let element = Utils.unboxing(this._$text);
+        let element = Utils.unboxing(this.$text);
         let charIndex = 0;
         let range = document.createRange();
         range.setStart(element, 0);

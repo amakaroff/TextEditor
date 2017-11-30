@@ -4,7 +4,7 @@ class TextStorage {
         this._textUtils = textUtils;
         this._errorHandler = errorHandler;
         this._changeSave = _.debounce(this._saveText, time);
-        this._$text = Utils.boxing(element);
+        this.$text = Utils.boxing(element);
 
         let sizeStorage = localStorage.getItem('size');
         let minIndex = localStorage.getItem('min');
@@ -19,7 +19,7 @@ class TextStorage {
             this._loadText();
         }
 
-        this._$text
+        this.$text
             .on('DOMSubtreeModified', () => this._changeSave())
             .keydown((event) => {
                 const z = 90;
@@ -51,7 +51,7 @@ class TextStorage {
                 this._minIndex++;
             }
             let savedObject = {};
-            savedObject.text = this._$text.html();
+            savedObject.text = this.$text.html();
             savedObject.cursor = this._textUtils.getCursorPosition();
             this._setItem(this._currentState.toString(), JSON.stringify(savedObject));
             this._setItem('current', this._currentState);
@@ -64,7 +64,7 @@ class TextStorage {
 
     _loadText() {
         let savedObject = JSON.parse(this._getItem(this._currentState.toString()));
-        this._$text.html(savedObject.text);
+        this.$text.html(savedObject.text);
         this._textUtils.setCursorPosition(savedObject.cursor);
     }
 
